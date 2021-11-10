@@ -73,7 +73,11 @@ const Navbar = () => {
                         </NavLink>
 
                         {!user ?
-                            <NavLink to="/auth/login" style={{ textDecoration: 'none' }}><Button variant="contained" sx={{ m: 1 }}>Login</Button></NavLink> :
+                            <NavLink to="/auth/login"
+                                style={{ textDecoration: 'none' }}>
+                                <Button variant="contained" sx={{ m: 1 }}
+                                    onClick={toggleHeaderVisibility}>Login</Button>
+                            </NavLink> :
                             <div>
                                 <IconButton
                                     size="large" color="warning"

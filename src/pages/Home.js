@@ -13,7 +13,8 @@ const Home = () => {
             <section>
                 <CarsSection dataAmount={6} />
                 <Box sx={{ textAlign: 'center', my: 6 }}>
-                    <NavLink to="/cars">
+                    <NavLink to="/cars"
+                        style={{ textDecoration: 'none' }}>
                         <Button variant="contained" color="primary"
                             sx={{
                                 px: 4, py: 1.5, fontSize: '20px',

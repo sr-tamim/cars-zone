@@ -35,11 +35,11 @@ const Authentication = () => {
                         <Route path={`${path}/signup`}><SignUp /></Route>
                     </Switch>
                 </BrowserRouter>
+                <SignInButton onClick={googleLogin}>
+                    <GoogleIcon sx={{ mr: 1 }} />
+                    <Typography sx={{ flexGrow: 1 }}>Sign in with Google</Typography>
+                </SignInButton>
             </Container>
-            <SignInButton onClick={googleLogin}>
-                <GoogleIcon sx={{ mr: 1 }} />
-                <Typography sx={{ flexGrow: 1 }}>Sign in with Google</Typography>
-            </SignInButton>
         </Box>
     );
 };
