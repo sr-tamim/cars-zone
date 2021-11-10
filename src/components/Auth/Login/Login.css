@@ -1,0 +1,16 @@
+.login-container, .signUp-container{
+    width: 100%;
+    max-width: 650px;
+    margin: auto;
+}
+
+.login-container .form-container, .signUp-container .form-container{
+    padding: 50px;
+    margin: 40px 0;
+    border: 2px solid rgb(172, 172, 172);
+    border-radius: 5px;
+}
+
+@media screen and (max-width:899px) {
+    .login-container .form-container, .signUp-container .form-container{ padding: 30px }
+}

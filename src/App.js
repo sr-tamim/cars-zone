@@ -3,8 +3,12 @@ import { Box, styled } from "@mui/system";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import './App.css';
 import Navbar from "./components/Common/Navbar/Navbar";
+import PrivateRoute from "./components/PrivateRoute/PrivateRoute";
+import AuthContextProvider from "./contexts/AuthContext";
+import Authentication from "./pages/Authentication";
 import Cars from "./pages/Cars";
 import Home from "./pages/Home";
+import UserProfile from "./pages/UserProfile";
 
 const theme = createTheme({
   palette: {
@@ -26,18 +30,23 @@ export const PageHeading = styled('div')(({ theme }) => ({
 function App() {
   return (
     <ThemeProvider theme={theme}>
-      <Router>
-        <Box className="App" sx={{ position: 'relative' }}>
-          <Navbar />
-          <Box sx={{ position: 'relative' }}>
-            <Switch>
-              <Route path="/home"><Home /></Route>
-              <Route path="/cars"><Cars /></Route>
-              <Route exact path="/"><Home /></Route>
-            </Switch>
+      <AuthContextProvider>
+        <Router>
+          <Box className="App" sx={{ position: 'relative' }}>
+            <Navbar />
+            <Box sx={{ position: 'relative' }}>
+              <Switch>
+                <Route path="/home"><Home /></Route>
+                <Route path="/cars"><Cars /></Route>
+                <Route path="/auth"><Authentication /></Route>
+                <Route exact path="/"><Home /></Route>
+
+                <PrivateRoute path="/profile"><UserProfile /></PrivateRoute>
+              </Switch>
+            </Box>
           </Box>
-        </Box>
-      </Router>
+        </Router>
+      </AuthContextProvider>
     </ThemeProvider>
   );
 }

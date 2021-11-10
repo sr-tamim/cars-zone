@@ -3,9 +3,9 @@ import { initializeApp } from "firebase/app";
 import { getAuth, onAuthStateChanged, signOut } from "firebase/auth";
 import { useState } from "react";
 import firebaseConfig from "../Firebase/firebase.config";
-import register from "../firebase/register";
-import signInEmail from "../firebase/sign-in-email";
-import signInGoogle from "../firebase/sign-in-google";
+import register from "../Firebase/register";
+import signInEmail from "../Firebase/sign-in-email";
+import signInGoogle from "../Firebase/sign-in-google";
 
 initializeApp(firebaseConfig); // initialize firebase
 const auth = getAuth(); // get auth info
@@ -15,27 +15,28 @@ const auth = getAuth(); // get auth info
 const useFirebase = () => {
     const [user, setUser] = useState(null);
     const [loadingUserOnReload, setLoadingUserOnRelaod] = useState(true);
-    const [usrError, setUsrError] = useState(null);
+    const [authError, setAuthError] = useState(null);
     const [authLoading, setAuthLoading] = useState(false);
 
     const modifyError = (error) => {
         if (error.message.startsWith('Firebase: Error')) {
             const modifiedError = error.message.split('/')[1].split('-').join(' ').split(')')[0];
-            setUsrError(modifiedError)
+            setAuthError(modifiedError)
         }
     }
 
 
     onAuthStateChanged(auth, usr => {
         usr ? setUser(usr) : user && setUser(null);
-        usr && setUsrError(null);
+        usr && setAuthError(null);
         user && saveUserToDB(); // save user to database
+        user && setAuthError(null); // clear error if user logged in
         loadingUserOnReload && setLoadingUserOnRelaod(false);
     })
 
     // save user info in database
     function saveUserToDB() {
-        axios.post('http://localhost:5000/users', {
+        axios.post('https://cars-zone.herokuapp.com/users', {
             email: user.email, displayName: user.displayName, role: 'public'
         }).then(({ data }) => data.upsertedCount && console.log('user added to database'))
     }
@@ -44,7 +45,7 @@ const useFirebase = () => {
     // starting authentication process
     function authStart() {
         setAuthLoading(true)
-        setUsrError(null)
+        setAuthError(null)
     }
 
     // authentication functions
@@ -70,7 +71,7 @@ const useFirebase = () => {
 
     return {
         user, setUser, loadingUserOnReload, authLoading, setAuthLoading,
-        usrError, setUsrError,
+        authError, setAuthError,
         logOut, googleLogin, signUp, loginEmail
     }
 };

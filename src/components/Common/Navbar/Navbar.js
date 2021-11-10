@@ -9,6 +9,7 @@ import MenuIcon from '@mui/icons-material/Menu';
 import { AccountCircle } from '@mui/icons-material';
 import { Button, Menu, MenuItem } from '@mui/material';
 import { NavLink } from 'react-router-dom';
+import useAuthContext from '../../../others/useAuthContext';
 
 
 const toggleHeaderVisibility = () => {
@@ -24,6 +25,7 @@ function changeHeaderOnScroll() {
 }
 
 const Navbar = () => {
+    const { user, logOut } = useAuthContext();
 
     const [anchorEl, setAnchorEl] = React.useState(null);
     const handleMenu = (event) => {
@@ -70,8 +72,8 @@ const Navbar = () => {
                             <Typography variant="h6">Contact</Typography>
                         </NavLink>
 
-                        {/*!user*/ true ?
-                            <NavLink to="/login" style={{ textDecoration: 'none' }}><Button variant="contained" sx={{ m: 1 }}>Login</Button></NavLink> :
+                        {!user ?
+                            <NavLink to="/auth/login" style={{ textDecoration: 'none' }}><Button variant="contained" sx={{ m: 1 }}>Login</Button></NavLink> :
                             <div>
                                 <IconButton
                                     size="large" color="warning"
@@ -84,11 +86,10 @@ const Navbar = () => {
                                         background: 'white'
                                     }}
                                 >
-                                    {/*!user.photoURL ? <AccountCircle /> :
+                                    {!user.photoURL ? <AccountCircle color="primary" fontSize="large" /> :
                                         <img src={user.photoURL} alt="" style={{
-                                            width: '40px', borderRadius: '50%'
-                                        }} />*/}
-                                    <AccountCircle />
+                                            width: '30px', borderRadius: '50%'
+                                        }} />}
                                 </IconButton>
                                 <Menu
                                     id="menu-appbar"
@@ -110,7 +111,7 @@ const Navbar = () => {
                                         }} >Profile</NavLink>
                                     </MenuItem>
                                     <MenuItem
-                                        onClick={() => { handleClose();/* logout()*/ }}>Logout</MenuItem>
+                                        onClick={() => { handleClose(); logOut() }}>Logout</MenuItem>
                                 </Menu>
                             </div>
                         }
