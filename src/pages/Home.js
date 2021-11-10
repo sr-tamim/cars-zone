@@ -4,7 +4,7 @@ import React from 'react';
 const Home = () => {
     return (
         <div>
-            <Typography variant="h1">
+            <Typography variant="h2">
                 This is homepage
             </Typography>;
         </div>
