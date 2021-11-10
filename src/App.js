@@ -20,10 +20,9 @@ export const PageHeading = styled('div')(({ theme }) => ({
   fontSize: '25px',
   textAlign: 'center',
   fontWeight: 'bold',
-  color: theme.palette.primary.dark,
   margin: '30px 0',
   [theme.breakpoints.up('md')]: {
-    fontSize: '45px'
+    fontSize: '50px'
   },
 }));
 

@@ -19,7 +19,7 @@ const CarsSection = ({ dataAmount }) => {
         <Box sx={{ maxWidth: 'xl', mx: 'auto', p: 2 }}>
             <Grid container rowSpacing={4} columnSpacing={{ xs: 1, sm: 2, md: 3 }}>
                 {
-                    cars.map(carInfo => <SingleCar carInfo={carInfo} />)
+                    cars.map(carInfo => <SingleCar carInfo={carInfo} key={carInfo.carID} />)
                 }
             </Grid>
         </Box>
