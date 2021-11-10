@@ -9,7 +9,7 @@ const Cars = () => {
             <Box variant="div" sx={{
                 display: 'flex',
                 alignItems: 'center',
-                maxHeight: '500px',
+                maxHeight: '300px',
                 overflow: 'hidden',
             }}>
                 <img src="/images/cars-page-banner.jpg" alt="cars"
