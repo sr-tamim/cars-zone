@@ -43,8 +43,8 @@ const Dashboard = () => {
 
     // change mobile state depending on window width
     function changeMobileState() {
-        window.innerWidth < 500 && setIsMobile(true)
-        window.innerWidth < 500 && setOpen(false)
+        window.innerWidth < 600 && setIsMobile(true)
+        window.innerWidth < 600 && setOpen(false)
     }
     useEffect(changeMobileState, [])
     window.addEventListener('resize', changeMobileState)

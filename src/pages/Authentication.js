@@ -6,6 +6,7 @@ import useAuthContext from '../others/useAuthContext';
 import { BrowserRouter, Switch, Route, useRouteMatch, useHistory, useLocation } from 'react-router-dom';
 import Login from '../components/Auth/Login/Login';
 import SignUp from '../components/Auth/SignUp/SignUp';
+import { PageHeading } from '../App';
 
 const SignInButton = styled(Box)(({ theme }) => ({
     width: '100%', maxWidth: '400px', textAlign: 'center',
@@ -28,6 +29,7 @@ const Authentication = () => {
     return (
         <Box>
             <Container>
+                <PageHeading sx={{ color: 'primary.main' }}>Authentication</PageHeading>
                 <BrowserRouter>
                     <Switch>
                         <Route exact path={path}><Login /></Route>

@@ -52,13 +52,16 @@ const SignUp = () => {
     return (
         <div className="signUp-container">
             <div className="form-container">
-                <Typography variant="h3" >
+                <Typography variant="h4" >
                     <Typewriter
                         options={{ loop: true }}
                         onInit={(typewriter) => {
                             typewriter.typeString('Create an account')
                                 .pauseFor(2500).deleteAll()
                                 .typeString('Sign up').pauseFor(2500)
+                                .deleteAll()
+                                .typeString('Register New Account')
+                                .pauseFor(2500)
                                 .start();
                         }}
                     />

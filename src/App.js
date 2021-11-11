@@ -13,9 +13,20 @@ import CarDetails from "./pages/CarDetails";
 import Page404 from "./pages/404";
 import Dashboard from "./pages/Dashboard";
 
-const theme = createTheme({
+export const theme = createTheme({
   palette: {
     primary: { main: "#f20000", dark: "#d20000", light: "#ff1a1a" }
+  },
+  typography: {
+    h4: {
+      fontSize: '1.3rem',
+      '@media (min-width:600px)': {
+        fontSize: '1.8rem',
+      },
+      '@media (min-width:900px)': {
+        fontSize: '2.5rem',
+      }
+    }
   }
 })
 

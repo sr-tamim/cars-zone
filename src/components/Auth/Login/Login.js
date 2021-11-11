@@ -54,8 +54,8 @@ const Login = () => {
                         options={{ loop: true }}
                         onInit={(typewriter) => {
                             typewriter.typeString('Login')
-                                .pauseFor(2500)
-                                .deleteAll()
+                                .pauseFor(2500).deleteAll()
+                                .typeString('Sign in').pauseFor(2500)
                                 .start();
                         }}
                     />
