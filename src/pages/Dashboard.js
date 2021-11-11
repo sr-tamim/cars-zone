@@ -118,7 +118,7 @@ const Dashboard = () => {
                         '& .MuiDrawer-paper': {
                             width: drawerWidth,
                             boxSizing: 'border-box',
-                        }, '& > div': { position: 'absolute' }
+                        }, '& > div': { position: 'absolute', zIndex: 10 }
                     }}
                     variant={isMobile ? "temporary" : "persistent"}
                     anchor="left"

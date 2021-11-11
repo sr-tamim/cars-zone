@@ -78,9 +78,9 @@ const CarDetails = () => {
         const orderInfo = { ...info, carID, carName, price, date, status: 'pending' }
         axios.post('https://cars-zone.herokuapp.com/order/save', orderInfo)
             .then(({ data }) => {
-                data.acknowledged && setSubmissionStatus({ success: 'order placed successfully' })
-                data.acknowledged && setValues({ ...values, name: user.displayName, phone: '', address: '' })
-                data.acknowledged && form.reset();
+                data.insertedId && setSubmissionStatus({ success: 'order placed successfully' })
+                data.insertedId && setValues({ ...values, name: user.displayName, phone: '', address: '' })
+                data.insertedId && form.reset();
             })
             .catch(err => console.log(err))
     }
