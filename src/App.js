@@ -9,6 +9,7 @@ import Authentication from "./pages/Authentication";
 import Cars from "./pages/Cars";
 import Home from "./pages/Home";
 import UserProfile from "./pages/UserProfile";
+import CarDetails from "./pages/CarDetails";
 
 const theme = createTheme({
   palette: {
@@ -36,11 +37,12 @@ function App() {
             <Box sx={{ position: 'relative' }}>
               <Switch>
                 <Route path="/home"><Home /></Route>
-                <Route path="/cars"><Cars /></Route>
+                <Route exact path="/cars"><Cars /></Route>
                 <Route path="/auth"><Authentication /></Route>
                 <Route exact path="/"><Home /></Route>
 
                 <PrivateRoute path="/profile"><UserProfile /></PrivateRoute>
+                <PrivateRoute path="/cars/details/:carID"><CarDetails /></PrivateRoute>
               </Switch>
             </Box>
           </Box>

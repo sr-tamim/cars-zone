@@ -1,6 +1,7 @@
-import { Grid, Typography } from '@mui/material';
+import { Button, Grid, Typography } from '@mui/material';
 import { alpha, Box, styled } from '@mui/system';
 import React from 'react';
+import { NavLink } from 'react-router-dom';
 
 
 const Icon = styled('i')(({ theme }) => ({
@@ -18,16 +19,28 @@ const CarPrice = styled('h5')(({ theme }) => ({
 
 
 const SingleCar = ({ carInfo }) => {
-    const { carImg, carName, carType, transmission, fuel, color, bodyStyle, mileage, price, engine } = carInfo;
+    const { carID, carImg, carName, carType, transmission, fuel, color, bodyStyle, mileage, price, engine } = carInfo;
     return (
         <Grid item xs={12} md={6} lg={4}>
             <Box sx={{
                 overflow: 'hidden', height: '500px', position: 'relative',
-                display: 'flex', alignItems: 'flex-end'
+                display: 'flex', alignItems: 'flex-end', '&:hover img': {
+                    transform: 'scale(1.1)'
+                }, '& .purchase-button-wrap': {
+                    position: 'absolute', inset: 0,
+                    background: '#ff000044', display: 'none', zIndex: 1,
+                    justifyContent: 'center', alignItems: 'center'
+                }, '&:hover .purchase-button-wrap': { display: 'flex' }
             }}>
                 <Box component="img" src={carImg} sx={{
-                    width: '100%',
-                }} ></Box>
+                    width: '100%', transition: 'transform 800ms'
+                }} />
+                <Box className="purchase-button-wrap">
+                    <NavLink to={`/cars/details/${carID}`} style={{ textDecoration: 'none' }}
+                    ><Button variant="contained" color="primary"
+                        sx={{ borderRadius: '5px', px: 3.5, py: 1.3 }}
+                    >Purchase</Button></NavLink>
+                </Box>
                 <Box sx={{
                     position: 'absolute', bottom: 0, left: 0, width: '100%',
                     background: 'linear-gradient(#00000000,#00000077,#00000099)',

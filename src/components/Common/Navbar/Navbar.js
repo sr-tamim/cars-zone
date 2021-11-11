@@ -91,9 +91,9 @@ const Navbar = () => {
                                     }}
                                 >
                                     {!user.photoURL ? <AccountCircle color="primary" fontSize="large" /> :
-                                        <img src={user.photoURL} alt="" style={{
-                                            width: '30px', borderRadius: '50%'
-                                        }} />}
+                                        <Box sx={{ width: '30px', height: '30px', background: '#ff000055', borderRadius: '50%', overflow: 'hidden' }}>
+                                            <img src={user.photoURL} alt="" style={{ width: '100%' }} />
+                                        </Box>}
                                 </IconButton>
                                 <Menu
                                     id="menu-appbar"
@@ -109,12 +109,12 @@ const Navbar = () => {
                                     }}
                                     open={Boolean(anchorEl)}
                                     onClose={handleClose}>
-                                    <MenuItem onClick={handleClose}>
+                                    <MenuItem sx={{ px: 4 }} onClick={handleClose}>
                                         <NavLink to="/profile" style={{
                                             textDecoration: 'none', color: 'inherit'
                                         }} >Profile</NavLink>
                                     </MenuItem>
-                                    <MenuItem
+                                    <MenuItem sx={{ px: 4 }}
                                         onClick={() => { handleClose(); logOut() }}>Logout</MenuItem>
                                 </Menu>
                             </div>

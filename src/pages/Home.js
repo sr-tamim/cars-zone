@@ -15,7 +15,7 @@ const Home = () => {
                 <Box sx={{ textAlign: 'center', my: 6 }}>
                     <NavLink to="/cars"
                         style={{ textDecoration: 'none' }}>
-                        <Button variant="contained" color="primary"
+                        <Button variant="outlined" color="primary"
                             sx={{
                                 px: 4, py: 1.5, fontSize: '20px',
                                 borderRadius: '5px'
