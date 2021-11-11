@@ -65,7 +65,7 @@ const DashboardMyOrders = () => {
     return (!myOrders ? <LoadingSpinner /> :
         <Box>
             <Typography variant="h4" color="primary"
-                sx={{ textAlign: 'center', fontWeight: 'bold' }}>
+                align="center" fontWeight='bold'>
                 My Orders
                 <Typography>{user.email}</Typography>
             </Typography>

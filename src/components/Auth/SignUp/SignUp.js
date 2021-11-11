@@ -57,8 +57,8 @@ const SignUp = () => {
                         options={{ loop: true }}
                         onInit={(typewriter) => {
                             typewriter.typeString('Create an account')
-                                .pauseFor(2500)
-                                .deleteAll()
+                                .pauseFor(2500).deleteAll()
+                                .typeString('Sign up').pauseFor(2500)
                                 .start();
                         }}
                     />

@@ -8,16 +8,19 @@ import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 import RateReviewIcon from '@mui/icons-material/RateReview';
 import { styled } from '@mui/system';
 import { NavLink } from 'react-router-dom';
+import useAuthContext from '../../others/useAuthContext';
 
 const Icon = styled('i')(({ theme }) => ({
     color: 'inherit', fontSize: '20px'
 }));
 
 const LinkWrap = styled(NavLink)(() => ({
+    color: 'inherit',
     textDecoration: 'none', '&.active>div': { background: '#ff00000f' }
 }))
 
 const DashboardNav = ({ url }) => {
+    const { logOut } = useAuthContext();
     return (
         <List>
             <ListItem button>
@@ -38,11 +41,13 @@ const DashboardNav = ({ url }) => {
                     <ListItemText>My Orders</ListItemText>
                 </ListItem>
             </LinkWrap>
-            <ListItem button>
-                <ListItemIcon><RateReviewIcon /></ListItemIcon>
-                <ListItemText>Review</ListItemText>
-            </ListItem>
-            <ListItem button>
+            <LinkWrap to={`${url}/review/add`} activeClassName='active'>
+                <ListItem button>
+                    <ListItemIcon><RateReviewIcon /></ListItemIcon>
+                    <ListItemText>Review</ListItemText>
+                </ListItem>
+            </LinkWrap>
+            <ListItem button onClick={logOut}>
                 <ListItemIcon>
                     <Icon style={{ margin: '0 4px' }} className="fas fa-sign-out-alt" />
                 </ListItemIcon>

@@ -14,6 +14,7 @@ import DashboardNav from '../components/Dashboard/DashboardNav';
 import { BrowserRouter, Switch, Route, useRouteMatch } from 'react-router-dom';
 import DashboardPay from '../components/Dashboard/DashboardPay';
 import DashboardMyOrders from '../components/Dashboard/DashboardMyOrders';
+import DashboardReview from '../components/Dashboard/DashboardReview';
 
 const Icon = styled('i')(({ theme }) => ({
     color: 'inherit', fontSize: '20px'
@@ -138,6 +139,7 @@ const Dashboard = () => {
                         <Switch>
                             <Route path={`${path}/pay`}><DashboardPay /></Route>
                             <Route path={`${path}/myorders`}><DashboardMyOrders /></Route>
+                            <Route path={`${path}/review/add`}><DashboardReview /></Route>
                         </Switch>
                     </Box>
                 </Main>

@@ -113,13 +113,14 @@ const Navbar = () => {
                                     }}
                                     open={Boolean(anchorEl)}
                                     onClose={handleClose}>
-                                    <MenuItem sx={{ px: 4 }}
-                                        onClick={() => { handleClose(); toggleHeaderVisibility() }}
-                                    >
-                                        <NavLink to="/profile" style={{
-                                            textDecoration: 'none', color: 'inherit'
-                                        }} >Profile</NavLink>
-                                    </MenuItem>
+                                    <NavLink to="/profile" style={{
+                                        textDecoration: 'none', color: 'inherit'
+                                    }} >
+                                        <MenuItem sx={{ px: 4 }}
+                                            onClick={() => { handleClose(); toggleHeaderVisibility() }}
+                                        >Profile
+                                        </MenuItem>
+                                    </NavLink>
                                     <MenuItem sx={{ px: 4 }}
                                         onClick={() => { handleClose(); logOut() }}>Logout</MenuItem>
                                 </Menu>
