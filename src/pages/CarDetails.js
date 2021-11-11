@@ -68,15 +68,17 @@ const CarDetails = () => {
                 !(/^[+]*[(]{0,1}[0-9]{1,4}[)]{0,1}[-\s./0-9]*$/g).test(phone) ? status = { error: 'invalid phone number' } :
                     address === '' ?
                         status = { error: 'address is required' } :
-                        saveOrderToDB({ ...values, carID }, event.target);
+                        saveOrderToDB(values, event.target);
         setSubmissionStatus(status)
     }
 
     // send order info to database
     const saveOrderToDB = (info, form) => {
-        axios.post('https://cars-zone.herokuapp.com/order/save', info)
+        const date = Date.now();
+        const orderInfo = { ...info, carID, carName, price, date, status: 'pending' }
+        axios.post('https://cars-zone.herokuapp.com/order/save', orderInfo)
             .then(({ data }) => {
-                data.upsertedCount && setSubmissionStatus({ success: 'order placed successfully' })
+                data.acknowledged && setSubmissionStatus({ success: 'order placed successfully' })
                 data.acknowledged && setValues({ ...values, name: user.displayName, phone: '', address: '' })
                 data.acknowledged && form.reset();
             })

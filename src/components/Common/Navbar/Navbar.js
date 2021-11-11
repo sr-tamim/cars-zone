@@ -71,6 +71,10 @@ const Navbar = () => {
                             onClick={toggleHeaderVisibility}>
                             <Typography variant="h6">Contact</Typography>
                         </NavLink>
+                        {user && <NavLink to="/dashboard" activeClassName="active"
+                            onClick={toggleHeaderVisibility}>
+                            <Typography variant="h6">Dashboard</Typography>
+                        </NavLink>}
 
                         {!user ?
                             <NavLink to="/auth/login"
@@ -109,7 +113,9 @@ const Navbar = () => {
                                     }}
                                     open={Boolean(anchorEl)}
                                     onClose={handleClose}>
-                                    <MenuItem sx={{ px: 4 }} onClick={handleClose}>
+                                    <MenuItem sx={{ px: 4 }}
+                                        onClick={() => { handleClose(); toggleHeaderVisibility() }}
+                                    >
                                         <NavLink to="/profile" style={{
                                             textDecoration: 'none', color: 'inherit'
                                         }} >Profile</NavLink>

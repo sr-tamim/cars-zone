@@ -11,6 +11,7 @@ import Home from "./pages/Home";
 import UserProfile from "./pages/UserProfile";
 import CarDetails from "./pages/CarDetails";
 import Page404 from "./pages/404";
+import Dashboard from "./pages/Dashboard";
 
 const theme = createTheme({
   palette: {
@@ -44,6 +45,7 @@ function App() {
 
                 <PrivateRoute path="/profile"><UserProfile /></PrivateRoute>
                 <PrivateRoute path="/cars/details/:carID"><CarDetails /></PrivateRoute>
+                <PrivateRoute path="/dashboard"><Dashboard /></PrivateRoute>
 
                 <Route path="*"><Page404 /></Route>
               </Switch>
