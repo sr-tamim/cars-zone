@@ -30,7 +30,6 @@ const useFirebase = () => {
         usr ? setUser(usr) : user && setUser(null);
         usr && setAuthError(null);
         user && saveUserToDB(); // save user to database
-        user && setAuthError(null); // clear error if user logged in
         loadingUserOnReload && setLoadingUserOnRelaod(false);
     })
 
