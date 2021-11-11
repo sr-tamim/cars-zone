@@ -47,7 +47,7 @@ const DashboardMyOrders = () => {
     useEffect(loadData, [user.email])
 
     const deleteOrder = (id) => {
-        axios.delete(`http://localhost:5000/order/${id}`)
+        axios.delete(`https://cars-zone.herokuapp.com/order/${id}`)
             .then(({ data }) => data.deletedCount && loadData())
             .catch(err => console.log(err))
     }
