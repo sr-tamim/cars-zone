@@ -10,6 +10,9 @@ const SignUp = () => {
     const { signUp, authError, setAuthError, user } = useAuthContext();
 
     useEffect(() => setAuthError(null), [setAuthError])
+    useEffect(() => {
+        authError && setValues({ email: '', password: '', showPassword: '' })
+    }, [authError])
 
     const [values, setValues] = React.useState({
         name: '',
@@ -30,7 +33,7 @@ const SignUp = () => {
     const handleMouseDownPassword = (event) => {
         event.preventDefault();
     };
-    const handleSubmit = () => {
+    const handleSubmit = (event) => {
         const { name, email, password, confirmPassword } = values;
         let err;
         email === '' ? err = "Email is required" :
@@ -42,6 +45,7 @@ const SignUp = () => {
                         name === '' ? err = "Name is required" :
                             signUp(name, email, password);
         err && setAuthError(err);
+        event.preventDefault();
     }
 
 
@@ -60,7 +64,7 @@ const SignUp = () => {
                             }}
                         />
                     </Typography>
-                    <form style={{ margin: '20px 0 0' }}>
+                    <form onSubmit={handleSubmit} style={{ margin: '20px 0 0' }}>
                         <FormControl sx={{ m: 1 }} color="primary" variant="standard" fullWidth >
                             <InputLabel htmlFor="signUp-name">Name</InputLabel>
                             <Input
@@ -123,8 +127,8 @@ const SignUp = () => {
                         <FormHelperText sx={{ color: 'red', mx: 1 }}>{authError && authError}</FormHelperText>
 
                         <Button variant="contained" size="large" color="primary"
-                            sx={{ width: '100%', margin: '30px 0' }}
-                            onClick={handleSubmit}>Sign Up
+                            type="submit"
+                            sx={{ width: '100%', margin: '30px 0' }}>Sign Up
                         </Button>
                     </form>
 

@@ -12,6 +12,9 @@ const Login = () => {
     const { user, loginEmail, authError, setAuthError } = useAuthContext();
 
     useEffect(() => setAuthError(null), [setAuthError])
+    useEffect(() => {
+        authError && setValues({ email: '', password: '', showPassword: '' })
+    }, [authError])
 
     const [values, setValues] = React.useState({
         email: '',
@@ -33,14 +36,13 @@ const Login = () => {
     };
     const handleSubmit = (event) => {
         const { email, password } = values;
-        let err;
+        let err = null;
         email === '' ? err = "Email is required" :
             !(/^[^\s@]+@[^\s@]+\.[^\s@]+$/).test(email) ?
                 err = "Enter a valid email" :
                 password === '' ? err = "Password is required" :
                     loginEmail(email, password);
         err && setAuthError(err);
-        authError && setValues({ email: '', password: '', showPassword: '' })
         event.preventDefault();
     }
 
