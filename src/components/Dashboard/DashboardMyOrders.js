@@ -10,6 +10,7 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import LoadingSpinner from '../Common/LoadingSpinner/LoadingSpinner';
+import MyModal from '../Common/Modal/Modal';
 
 const columns = [
     { id: 'carID', label: 'Car\u00a0ID', minWidth: 50 },
@@ -37,6 +38,7 @@ const columns = [
 
 const DashboardMyOrders = () => {
     const { user } = useAuthContext();
+    const [modalOpen, setModalOpen] = useState(false);
     const [myOrders, setMyOrders] = useState(null);
 
     function loadData() {
@@ -46,6 +48,11 @@ const DashboardMyOrders = () => {
     }
     useEffect(loadData, [user.email])
 
+    // deletion process
+    const [deletionID, setDeletionID] = useState(null);
+    const handleDelete = (id) => {
+        setDeletionID(id); setModalOpen(true);
+    }
     const deleteOrder = (id) => {
         axios.delete(`https://cars-zone.herokuapp.com/order/${id}`)
             .then(({ data }) => data.deletedCount && loadData())
@@ -111,7 +118,7 @@ const DashboardMyOrders = () => {
                                         })}
                                         <TableCell align="right">
                                             <Button variant="outlined"
-                                                onClick={() => deleteOrder(row._id)}>Delete</Button>
+                                                onClick={() => handleDelete(row._id)}>Delete</Button>
                                         </TableCell>
                                     </TableRow>
                                 );
@@ -120,6 +127,10 @@ const DashboardMyOrders = () => {
                     </Table>
                 </TableContainer>
             </Box>
+            <MyModal open={modalOpen} setOpen={setModalOpen}
+                confirmedFunction={() => deleteOrder(deletionID)}>
+                Confirm your order deletion process
+            </MyModal>
         </Box>
     );
 };
