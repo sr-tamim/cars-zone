@@ -26,9 +26,7 @@ const useFirebase = () => {
         }
     }
 
-
     onAuthStateChanged(auth, usr => {
-        console.log(user)
         usr && setAuthError(null); // clear error
         usr && (user || getUserFromDB(usr.email)); // save user to database
         usr || (user && setUser(null)); // set user to null if not found

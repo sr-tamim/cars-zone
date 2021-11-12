@@ -68,6 +68,14 @@ const DashboardNav = ({ url }) => {
                         <ListItemText>Add Car</ListItemText>
                     </ListItem>
                 </LinkWrap>
+                <LinkWrap to={`${url}/manage_cars`} activeClassName='active'>
+                    <ListItem button>
+                        <ListItemIcon>
+                            <Icon className="fas fa-tools" />
+                        </ListItemIcon>
+                        <ListItemText>Manage Cars</ListItemText>
+                    </ListItem>
+                </LinkWrap>
             </>
             }
             <ListItem button onClick={logOut}>

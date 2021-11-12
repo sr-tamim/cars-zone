@@ -19,7 +19,7 @@ const AddNewCar = ({ setProcessStatus, handleSnackBar }) => {
 
     const handleSubmit = (event) => {
         const newCarInfo = { ...values, carType, fuel }
-        axios.post('http://localhost:5000/cars', newCarInfo)
+        axios.post('https://cars-zone.herokuapp.com/cars', newCarInfo)
             .then(({ data }) => {
                 if (data.insertedId) {
                     setProcessStatus({

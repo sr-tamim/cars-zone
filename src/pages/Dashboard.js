@@ -19,6 +19,7 @@ import MakeAdmin from '../components/Dashboard/AdminParts/MakeAdmin';
 import AdminRoute from '../components/AdminRoute/AdminRoute';
 import { Alert, Snackbar } from '@mui/material';
 import AddNewCar from '../components/Dashboard/AdminParts/AddNewCar';
+import ManageCars from '../components/Dashboard/AdminParts/ManageCars';
 
 const Icon = styled('i')(({ theme }) => ({
     color: 'inherit', fontSize: '20px'
@@ -152,7 +153,7 @@ const Dashboard = () => {
                 </Drawer>
                 <Main open={open}>
                     <DrawerHeader />
-                    <Box>
+                    <Box sx={{ height: '100%' }}>
                         <Switch>
                             <Route path={`${path}/pay`}><DashboardPay /></Route>
                             <Route path={`${path}/orders`}>
@@ -164,6 +165,9 @@ const Dashboard = () => {
                             </AdminRoute>
                             <AdminRoute path={`${path}/add_car`}>
                                 <AddNewCar setProcessStatus={setProcessStatus} handleSnackBar={handleSnackBar} />
+                            </AdminRoute>
+                            <AdminRoute path={`${path}/manage_cars`}>
+                                <ManageCars setProcessStatus={setProcessStatus} handleSnackBar={handleSnackBar} />
                             </AdminRoute>
                         </Switch>
                     </Box>

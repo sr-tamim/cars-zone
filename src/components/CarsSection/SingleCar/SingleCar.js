@@ -21,10 +21,11 @@ const CarPrice = styled('h5')(({ theme }) => ({
 const SingleCar = ({ carInfo }) => {
     const { carID, carImg, carName, carType, transmission, fuel, color, mileage, price, engine } = carInfo;
     return (
-        <Grid item xs={12} md={6} lg={4}>
+        <Grid item xs={12} sm={8} md={6} lg={4}>
             <Box sx={{
                 overflow: 'hidden', height: '500px', position: 'relative',
-                display: 'flex', alignItems: 'flex-end', '&:hover img': {
+                display: 'flex', alignItems: 'flex-end', justifyContent: 'center',
+                borderRadius: '10px', '&:hover img': {
                     transform: 'scale(1.1)'
                 }, '& .purchase-button-wrap': {
                     position: 'absolute', inset: 0,
@@ -33,7 +34,8 @@ const SingleCar = ({ carInfo }) => {
                 }, '&:hover .purchase-button-wrap': { display: 'flex' }
             }}>
                 <Box component="img" src={carImg} sx={{
-                    width: '100%', transition: 'transform 800ms'
+                    minWidth: '100%', minHeight: '100%',
+                    transition: 'transform 800ms', objectFit: 'cover'
                 }} />
                 <Box className="purchase-button-wrap">
                     <NavLink to={`/cars/details/${carID}`} style={{ textDecoration: 'none' }}

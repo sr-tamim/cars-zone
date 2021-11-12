@@ -17,7 +17,8 @@ const CarsSection = ({ dataAmount }) => {
 
     return (!cars ? <LoadingSpinner style={{ padding: '100px 0' }} /> :
         <Box sx={{ maxWidth: 'xl', mx: 'auto', p: 2 }}>
-            <Grid container rowSpacing={4} columnSpacing={{ xs: 1, sm: 2, md: 3 }}>
+            <Grid container rowSpacing={4} columnSpacing={{ xs: 1, sm: 2, md: 3, xl: 4 }}
+                sx={{ justifyContent: 'center' }}>
                 {
                     cars.map(carInfo => <SingleCar carInfo={carInfo} key={carInfo.carID} />)
                 }

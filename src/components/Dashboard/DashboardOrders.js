@@ -91,17 +91,18 @@ const DashboardOrders = ({ setProcessStatus, handleSnackBar }) => {
 
 
     return (!orders ? <LoadingSpinner /> :
-        <Box>
+        <Box sx={{ height: '100%' }}>
             <Typography variant="h4" color="primary"
                 align="center" fontWeight='bold'>
                 {user?.role === 'admin' ? 'All Orders' : 'My Orders'}
                 {user?.role === 'admin' && <Typography>{user.email}</Typography>}
             </Typography>
-            <Box sx={{ my: 4 }}>
-                <TableContainer sx={{ maxHeight: 440 }}>
+            <Box sx={{ my: 4, position: 'relative', height: '80%' }}>
+                <TableContainer sx={{ height: '100%', position: 'absolute', top: 0, left: 0 }}>
                     <Table stickyHeader aria-label="Dashboard my orders table">
                         <TableHead>
                             <TableRow>
+                                <TableCell>Sl no.</TableCell>
                                 {user?.role === 'admin' && <TableCell>Email</TableCell>}
                                 {columns.map((column) => (
                                     <TableCell
@@ -119,7 +120,7 @@ const DashboardOrders = ({ setProcessStatus, handleSnackBar }) => {
                             </TableRow>
                         </TableHead>
                         <TableBody>
-                            {rows.map((row) => {
+                            {rows.map((row, index) => {
                                 return (
                                     <TableRow hover role="checkbox"
                                         sx={{
@@ -130,6 +131,7 @@ const DashboardOrders = ({ setProcessStatus, handleSnackBar }) => {
                                         }}
                                         tabIndex={-1} key={row._id}
                                     >
+                                        <TableCell>{index + 1}</TableCell>
                                         {user?.role === 'admin' && <TableCell sx={{
                                             textTransform: 'none'
                                         }}>{row.email}</TableCell>
