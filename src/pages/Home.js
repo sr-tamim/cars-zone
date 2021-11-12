@@ -1,4 +1,4 @@
-import { Button, Typography } from '@mui/material';
+import { Button } from '@mui/material';
 import { Box } from '@mui/system';
 import React from 'react';
 import { NavLink } from 'react-router-dom';
@@ -8,9 +8,6 @@ import GuaranteeSection from '../components/Homepage/GuaranteeSection';
 const Home = () => {
     return (
         <div>
-            <Typography variant="h2">
-                This is homepage
-            </Typography>
             <section>
                 <CarsSection dataAmount={6} />
                 <Box sx={{ textAlign: 'center', my: 6 }}>

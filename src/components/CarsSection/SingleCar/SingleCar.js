@@ -50,7 +50,7 @@ const SingleCar = ({ carInfo }) => {
                     px: 2, pt: 12, pb: 3
                 }} >
                     <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-                        <Typography variant="h4"
+                        <Typography variant="h5"
                             sx={{ fontWeight: 'bold', textTransform: 'capitalize' }}
                         >{carName}</Typography>
                         <CarPrice>${price}</CarPrice>

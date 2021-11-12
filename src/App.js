@@ -12,12 +12,14 @@ import UserProfile from "./pages/UserProfile";
 import CarDetails from "./pages/CarDetails";
 import Page404 from "./pages/404";
 import Dashboard from "./pages/Dashboard";
+import Footer from "./components/Common/Footer/Footer";
 
 export const theme = createTheme({
   palette: {
-    primary: { main: "#f20000", dark: "#d20000", light: "#ff1a1a" }
+    primary: { main: "#f10000", dark: "#d20000", light: "#ff1a1a" }
   },
   typography: {
+    fontFamily: ['Arvo', 'BlinkMacSystemFont', '"Segoe UI"', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', '"Fira Sans"', '"Droid Sans"', '"Helvetica Neue"', 'sans-serif'].join(','),
     h4: {
       fontSize: '1.3rem',
       '@media (min-width:600px)': {
@@ -61,6 +63,7 @@ function App() {
                 <Route path="*"><Page404 /></Route>
               </Switch>
             </Box>
+            <Footer />
           </Box>
         </Router>
       </AuthContextProvider>
