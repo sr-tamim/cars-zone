@@ -28,8 +28,9 @@ const useFirebase = () => {
 
 
     onAuthStateChanged(auth, usr => {
+        console.log(user)
         usr && setAuthError(null); // clear error
-        usr && (user || saveUserToDB(usr)); // save user to database
+        usr && (user || getUserFromDB(usr.email)); // save user to database
         usr || (user && setUser(null)); // set user to null if not found
         usr || (loadingUserOnReload && setLoadingUserOnRelaod(false)) // set loading false
     })
@@ -67,12 +68,13 @@ const useFirebase = () => {
     }
     const googleLogin = () => {
         authStart()
-        signInGoogle(auth).catch(err => modifyError(err))
+        signInGoogle(auth).then(() => saveUserToDB(auth.currentUser))
+            .catch(err => modifyError(err))
             .finally(() => setAuthLoading(false))
     }
     const signUp = (name, email, password) => {
         authStart()
-        register(auth, name, email, password)
+        register(auth, name, email, password, saveUserToDB)
             .catch(err => modifyError(err))
             .finally(() => setAuthLoading(false));
     }

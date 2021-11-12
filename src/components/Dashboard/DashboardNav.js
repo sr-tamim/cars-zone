@@ -20,33 +20,48 @@ const LinkWrap = styled(NavLink)(() => ({
 }))
 
 const DashboardNav = ({ url }) => {
-    const { logOut } = useAuthContext();
+    const { user, logOut } = useAuthContext();
     return (
         <List>
             <ListItem button>
                 <ListItemIcon><DashboardIcon /></ListItemIcon>
                 <ListItemText>Dashboard</ListItemText>
             </ListItem>
-            <LinkWrap to={`${url}/pay`} activeClassName='active'>
-                <ListItem button>
-                    <ListItemIcon>
-                        <Icon className="fas fa-money-check-alt" />
-                    </ListItemIcon>
-                    <ListItemText>Pay</ListItemText>
-                </ListItem>
-            </LinkWrap>
-            <LinkWrap to={`${url}/myorders`} activeClassName='active'>
+            {user?.role !== 'admin' &&
+                <LinkWrap to={`${url}/pay`} activeClassName='active'>
+                    <ListItem button>
+                        <ListItemIcon>
+                            <Icon className="fas fa-money-check-alt" />
+                        </ListItemIcon>
+                        <ListItemText>Pay</ListItemText>
+                    </ListItem>
+                </LinkWrap>
+            }
+            <LinkWrap to={`${url}/orders`} activeClassName='active'>
                 <ListItem button>
                     <ListItemIcon><ShoppingCartIcon /></ListItemIcon>
-                    <ListItemText>My Orders</ListItemText>
+
+                    <ListItemText>{user?.role === 'admin' ? 'All Orders' : 'My Orders'}</ListItemText>
                 </ListItem>
             </LinkWrap>
-            <LinkWrap to={`${url}/review/add`} activeClassName='active'>
-                <ListItem button>
-                    <ListItemIcon><RateReviewIcon /></ListItemIcon>
-                    <ListItemText>Review</ListItemText>
-                </ListItem>
-            </LinkWrap>
+            {user?.role !== 'admin' &&
+                <LinkWrap to={`${url}/review/add`} activeClassName='active'>
+                    <ListItem button>
+                        <ListItemIcon><RateReviewIcon /></ListItemIcon>
+                        <ListItemText>Review</ListItemText>
+                    </ListItem>
+                </LinkWrap>
+            }
+            {user?.role === 'admin' &&
+                <LinkWrap to={`${url}/make_admin`} activeClassName='active'>
+                    <ListItem button>
+                        <ListItemIcon>
+                            <Icon className="fas fa-user-shield" />
+                        </ListItemIcon>
+                        <ListItemText>Make Admin</ListItemText>
+                    </ListItem>
+                </LinkWrap>
+            }
             <ListItem button onClick={logOut}>
                 <ListItemIcon>
                     <Icon style={{ margin: '0 4px' }} className="fas fa-sign-out-alt" />

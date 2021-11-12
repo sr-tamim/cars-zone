@@ -6,10 +6,11 @@ import { Box } from '@mui/system';
 import { NavLink } from 'react-router-dom';
 import Typewriter from 'typewriter-effect';
 import useAuthContext from '../../../others/useAuthContext';
+import LoadingSpinner from '../../Common/LoadingSpinner/LoadingSpinner';
 
 
 const Login = () => {
-    const { loginEmail, authError, setAuthError } = useAuthContext();
+    const { loginEmail, authError, setAuthError, authLoading } = useAuthContext();
 
     useEffect(() => setAuthError(null), [setAuthError])
     useEffect(() => {
@@ -90,13 +91,21 @@ const Login = () => {
                         />
                     </FormControl>
 
-                    <FormHelperText sx={{ color: 'red', mx: 1, textTransform: 'capitalize' }}>{authError && authError}</FormHelperText>
 
-                    <Box><Typography sx={{ textAlign: 'right' }}>Forgot Password</Typography></Box>
+                    <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
+                        <FormHelperText sx={{
+                            color: 'red', mx: 1, textTransform: 'capitalize'
+                        }}>{authError && authError}</FormHelperText>
 
+                        <Typography sx={{ ml: 4 }}>Forgot Password</Typography>
+                    </Box>
 
+                    <Box sx={{ height: '30px' }}>
+                        {authLoading && <LoadingSpinner width="30px" height="30px" />}
+                    </Box>
                     <Button variant="contained" size="large" color="primary" type="submit"
-                        sx={{ width: '100%', margin: '30px 0' }}>Login
+                        sx={{ width: '100%', mt: 1.5, mb: 4 }}>
+                        Login
                     </Button>
 
                 </form>

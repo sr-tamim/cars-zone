@@ -13,10 +13,11 @@ import ChevronRightIcon from '@mui/icons-material/ChevronRight';
 import DashboardNav from '../components/Dashboard/DashboardNav';
 import { BrowserRouter, Switch, Route, useRouteMatch } from 'react-router-dom';
 import DashboardPay from '../components/Dashboard/DashboardPay';
-import DashboardMyOrders from '../components/Dashboard/DashboardMyOrders';
+import DashboardOrders from '../components/Dashboard/DashboardOrders';
 import DashboardReview from '../components/Dashboard/DashboardReview';
 import MakeAdmin from '../components/Dashboard/AdminParts/MakeAdmin';
 import AdminRoute from '../components/AdminRoute/AdminRoute';
+import { Alert, Snackbar } from '@mui/material';
 
 const Icon = styled('i')(({ theme }) => ({
     color: 'inherit', fontSize: '20px'
@@ -39,6 +40,7 @@ const Dashboard = () => {
     const theme = useTheme();
     const [open, setOpen] = useState(true);
     const [isMobile, setIsMobile] = useState(false);
+    const [processStatus, setProcessStatus] = React.useState(null);
 
     const handleDrawerOpen = () => setOpen(true)
     const handleDrawerClose = () => setOpen(false)
@@ -75,7 +77,7 @@ const Dashboard = () => {
         shouldForwardProp: (prop) => prop !== 'open',
     })(({ theme, open }) => ({
         padding: '10px 0', zIndex: 10,
-        background: '#0000000d', color: theme.palette.primary.dark,
+        background: '#ff00000f', color: theme.palette.primary.dark,
         transition: theme.transitions.create(['margin', 'width'], {
             easing: theme.transitions.easing.sharp,
             duration: theme.transitions.duration.leavingScreen,
@@ -93,6 +95,18 @@ const Dashboard = () => {
 
     // nested routing
     const { path, url } = useRouteMatch();
+
+
+    const [snackBar, setSnackBar] = React.useState(false);
+    const handleSnackBar = () => {
+        setSnackBar(true);
+    };
+    const handleSnackBarClose = (event, reason) => {
+        if (reason === 'clickaway') {
+            return;
+        }
+        setSnackBar(false);
+    };
 
 
     return (
@@ -140,13 +154,30 @@ const Dashboard = () => {
                     <Box>
                         <Switch>
                             <Route path={`${path}/pay`}><DashboardPay /></Route>
-                            <Route path={`${path}/myorders`}><DashboardMyOrders /></Route>
+                            <Route path={`${path}/orders`}>
+                                <DashboardOrders processStatus={processStatus} setProcessStatus={setProcessStatus} handleSnackBar={handleSnackBar} />
+                            </Route>
                             <Route path={`${path}/review/add`}><DashboardReview /></Route>
-                            <AdminRoute path={`${path}/make_admin`}><MakeAdmin /></AdminRoute>
+                            <AdminRoute path={`${path}/make_admin`}>
+                                <MakeAdmin processStatus={processStatus} setProcessStatus={setProcessStatus} handleSnackBar={handleSnackBar} />
+                            </AdminRoute>
                         </Switch>
                     </Box>
                 </Main>
             </Box>
+            {processStatus?.success &&
+                <Snackbar open={snackBar} autoHideDuration={4000} onClose={handleSnackBarClose}>
+                    <Alert onClose={handleSnackBarClose} severity="success" sx={{ width: '100%' }}>
+                        {processStatus?.success}
+                    </Alert>
+                </Snackbar>
+            }{processStatus?.error &&
+                <Snackbar open={snackBar} autoHideDuration={4000} onClose={handleSnackBarClose}>
+                    <Alert onClose={handleSnackBarClose} severity="error" sx={{ width: '100%' }}>
+                        {processStatus?.error}
+                    </Alert>
+                </Snackbar>
+            }
         </BrowserRouter>
     );
 };

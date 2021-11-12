@@ -5,9 +5,10 @@ import { Box } from '@mui/system';
 import { NavLink } from 'react-router-dom';
 import useAuthContext from '../../../others/useAuthContext';
 import Typewriter from 'typewriter-effect';
+import LoadingSpinner from '../../Common/LoadingSpinner/LoadingSpinner';
 
 const SignUp = () => {
-    const { signUp, authError, setAuthError } = useAuthContext();
+    const { signUp, authError, setAuthError, authLoading } = useAuthContext();
 
     useEffect(() => setAuthError(null), [setAuthError])
     useEffect(() => {
@@ -126,11 +127,15 @@ const SignUp = () => {
                             }
                         />
                     </FormControl>
-                    <FormHelperText sx={{ color: 'red', mx: 1, textTransform: 'capitalize' }}>{authError && authError}</FormHelperText>
+                    <FormHelperText sx={{ color: 'red', mx: 1, textTransform: 'capitalize', height: '15px' }}>{authError && authError}</FormHelperText>
+
+                    <Box sx={{ height: '30px' }}>
+                        {authLoading && <LoadingSpinner width="30px" height="30px" />}
+                    </Box>
 
                     <Button variant="contained" size="large" color="primary"
                         type="submit"
-                        sx={{ width: '100%', margin: '30px 0' }}>Sign Up
+                        sx={{ width: '100%', mt: 1.5, mb: 4 }}>Sign Up
                     </Button>
                 </form>
 

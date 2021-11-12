@@ -1,46 +1,31 @@
 import { AccountCircle } from '@mui/icons-material';
-import { Alert, Button, Snackbar, TextField, Typography } from '@mui/material';
+import { Button, TextField, Typography } from '@mui/material';
 import { Box } from '@mui/system';
 import axios from 'axios';
 import React from 'react';
-import useAuthContext from '../../../others/useAuthContext';
 
 
-const MakeAdmin = () => {
-    const { getUserFromDB } = useAuthContext();
+const MakeAdmin = ({ processStatus, setProcessStatus, handleSnackBar }) => {
     const [emailInput, setEmailInput] = React.useState('');
-    const [addingStatus, setAddingStatus] = React.useState(null);
 
 
     // add new admin
     function addNewAdmin(event) {
         event.preventDefault();
-        setAddingStatus(null);
+        setProcessStatus(null);
         !(/^[^\s@]+@[^\s@]+\.[^\s@]+$/).test(emailInput) ?
-            setAddingStatus({ error: 'Invalid Email' })
+            setProcessStatus({ error: 'Invalid Email' })
             : axios.post(`https://cars-zone.herokuapp.com/admin/add`, { email: emailInput })
                 .then(({ data }) => {
-                    data.modifiedCount ? setAddingStatus({
+                    data.modifiedCount ? setProcessStatus({
                         success: 'Admin Added Successfully'
                     })
-                        : data.matchedCount && setAddingStatus({ success: 'Already Added' })
-                    data.error ? setAddingStatus(data) : event.target.reset();
+                        : data.matchedCount && setProcessStatus({ success: 'Already Added' })
+                    data.error ? setProcessStatus(data) : event.target.reset();
                 })
                 .catch(err => console.log(err.message));
-        handleClick()
+        handleSnackBar();
     }
-
-
-    const [snackBar, setSnackBar] = React.useState(false);
-    const handleClick = () => {
-        setSnackBar(true);
-    };
-    const handleClose = (event, reason) => {
-        if (reason === 'clickaway') {
-            return;
-        }
-        setSnackBar(false);
-    };
 
 
     return (
@@ -54,19 +39,6 @@ const MakeAdmin = () => {
                     <Button sx={{ py: 0.5 }} type="submit">Add</Button>
                 </Box>
             </form>
-            {addingStatus?.success &&
-                <Snackbar open={snackBar} autoHideDuration={4000} onClose={handleClose}>
-                    <Alert onClose={handleClose} severity="success" sx={{ width: '100%' }}>
-                        {addingStatus?.success}
-                    </Alert>
-                </Snackbar>
-            }{addingStatus?.error &&
-                <Snackbar open={snackBar} autoHideDuration={4000} onClose={handleClose}>
-                    <Alert onClose={handleClose} severity="error" sx={{ width: '100%' }}>
-                        {addingStatus?.error}
-                    </Alert>
-                </Snackbar>
-            }
         </Box>
     );
 };
