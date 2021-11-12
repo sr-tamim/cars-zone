@@ -18,6 +18,7 @@ const useFirebase = () => {
     const [authError, setAuthError] = useState(null);
     const [authLoading, setAuthLoading] = useState(false);
 
+    // modify firebase error to show in UI
     const modifyError = (error) => {
         if (error.message.startsWith('Firebase: Error')) {
             const modifiedError = error.message.split('/')[1].split('-').join(' ').split(')')[0];
@@ -27,17 +28,30 @@ const useFirebase = () => {
 
 
     onAuthStateChanged(auth, usr => {
-        usr ? setUser(usr) : user && setUser(null);
-        usr && setAuthError(null);
-        user && saveUserToDB(); // save user to database
-        loadingUserOnReload && setLoadingUserOnRelaod(false);
+        usr && setAuthError(null); // clear error
+        usr && (user || saveUserToDB(usr)); // save user to database
+        usr || (user && setUser(null)); // set user to null if not found
+        usr || (loadingUserOnReload && setLoadingUserOnRelaod(false)) // set loading false
     })
 
     // save user info in database
-    function saveUserToDB() {
-        axios.post('https://cars-zone.herokuapp.com/users', {
-            email: user.email, displayName: user.displayName, role: 'public'
-        }).then(({ data }) => data.upsertedCount && console.log('user added to database'))
+    function saveUserToDB(userInfo) {
+        const { email, displayName, photoURL } = userInfo;
+        axios.post('http://localhost:5000/users', {
+            email, displayName, photoURL, role: 'public'
+        })
+            .then(({ data }) => data.upsertedCount && console.log('user added to database'))
+            .catch(err => console.log(err))
+            .finally(() => getUserFromDB(email))
+    }
+    // get user info from database
+    function getUserFromDB(email) {
+        axios.get(`http://localhost:5000/users/${email}`)
+            .then(({ data }) => {
+                setUser(data);
+                loadingUserOnReload && setLoadingUserOnRelaod(false);
+            })
+            .catch(err => console.log(err))
     }
 
 

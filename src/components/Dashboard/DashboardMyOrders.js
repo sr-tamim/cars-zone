@@ -118,8 +118,8 @@ const DashboardMyOrders = () => {
                                                 </TableCell>
                                             );
                                         })}
-                                        <TableCell align="right">
-                                            <Select
+                                        <TableCell align="right" sx={{ pr: 0 }}>
+                                            <Select readOnly={user.role !== 'admin'}
                                                 variant="standard"
                                                 value={row.status}
                                                 onChange={handleChange}
