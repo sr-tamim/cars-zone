@@ -15,6 +15,7 @@ import MyModal from '../Common/Modal/Modal';
 const columns = [
     { id: 'carID', label: 'Car\u00a0ID', minWidth: 50 },
     { id: 'carName', label: 'Car\u00a0Name', minWidth: 170 },
+    { id: 'price', label: 'Price\u00a0$', align: 'right', minWidth: 120 },
     {
         id: 'status',
         label: 'Status',
