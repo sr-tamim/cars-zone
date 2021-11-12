@@ -6,6 +6,7 @@ import ListItemText from '@mui/material/ListItemText';
 import DashboardIcon from '@mui/icons-material/Dashboard';
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 import RateReviewIcon from '@mui/icons-material/RateReview';
+import ElectricCarIcon from '@mui/icons-material/ElectricCar';
 import { styled } from '@mui/system';
 import { NavLink } from 'react-router-dom';
 import useAuthContext from '../../others/useAuthContext';
@@ -52,7 +53,7 @@ const DashboardNav = ({ url }) => {
                     </ListItem>
                 </LinkWrap>
             }
-            {user?.role === 'admin' &&
+            {user?.role === 'admin' && <>
                 <LinkWrap to={`${url}/make_admin`} activeClassName='active'>
                     <ListItem button>
                         <ListItemIcon>
@@ -61,6 +62,13 @@ const DashboardNav = ({ url }) => {
                         <ListItemText>Make Admin</ListItemText>
                     </ListItem>
                 </LinkWrap>
+                <LinkWrap to={`${url}/add_car`} activeClassName='active'>
+                    <ListItem button>
+                        <ListItemIcon><ElectricCarIcon /></ListItemIcon>
+                        <ListItemText>Add Car</ListItemText>
+                    </ListItem>
+                </LinkWrap>
+            </>
             }
             <ListItem button onClick={logOut}>
                 <ListItemIcon>

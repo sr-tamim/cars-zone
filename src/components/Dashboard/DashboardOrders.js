@@ -34,7 +34,7 @@ const columns = [
 ];
 
 
-const DashboardOrders = ({ processStatus, setProcessStatus, handleSnackBar }) => {
+const DashboardOrders = ({ setProcessStatus, handleSnackBar }) => {
     const { user } = useAuthContext();
     const [modalOpen, setModalOpen] = useState(false);
     const [orders, setOrders] = useState(null);

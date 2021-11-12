@@ -19,7 +19,7 @@ const CarPrice = styled('h5')(({ theme }) => ({
 
 
 const SingleCar = ({ carInfo }) => {
-    const { carID, carImg, carName, carType, transmission, fuel, color, bodyStyle, mileage, price, engine } = carInfo;
+    const { carID, carImg, carName, carType, transmission, fuel, color, mileage, price, engine } = carInfo;
     return (
         <Grid item xs={12} md={6} lg={4}>
             <Box sx={{
@@ -79,10 +79,6 @@ const SingleCar = ({ carInfo }) => {
                         <Box sx={{ display: 'flex', alignItems: 'center', mx: 1, mt: 1.5 }}>
                             <Icon className="fas fa-cogs"></Icon>
                             <Typography variant="p" sx={{ textTransform: 'capitalize', mx: 1 }}>{engine}</Typography>
-                        </Box>
-                        <Box sx={{ display: 'flex', alignItems: 'center', mx: 1, mt: 1.5 }}>
-                            <Icon className="fas fa-tint"></Icon>
-                            <Typography variant="p" sx={{ textTransform: 'capitalize', mx: 1 }}>{bodyStyle}</Typography>
                         </Box>
                     </Box>
                 </Box>

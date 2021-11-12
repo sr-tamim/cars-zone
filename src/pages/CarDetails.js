@@ -24,7 +24,7 @@ const CarDetails = () => {
     const { user } = useAuthContext();
     const { carID } = useParams();
     const [carDetails, setCarDetails] = useState(null);
-    const { carImg, carName, carType, transmission, fuel, color, bodyStyle, mileage, price, engine } = carDetails ? carDetails : {};
+    const { carImg, carName, carType, transmission, fuel, color, mileage, price, engine } = carDetails ? carDetails : {};
 
     useEffect(() => {
         axios.get(`https://cars-zone.herokuapp.com/cars/details/${carID}`)
@@ -39,11 +39,10 @@ const CarDetails = () => {
     const rows = [
         createData('body color', color),
         createData('Car Type', carType),
-        createData('body style', bodyStyle),
         createData('transmission', transmission),
         createData('Fuel type', fuel),
         createData('engine', engine),
-        createData('mileage', `${mileage} km`)
+        createData('mileage', `${mileage} meters`)
     ];
 
 

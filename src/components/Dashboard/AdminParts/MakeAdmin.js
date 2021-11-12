@@ -5,7 +5,7 @@ import axios from 'axios';
 import React from 'react';
 
 
-const MakeAdmin = ({ processStatus, setProcessStatus, handleSnackBar }) => {
+const MakeAdmin = ({ setProcessStatus, handleSnackBar }) => {
     const [emailInput, setEmailInput] = React.useState('');
 
 

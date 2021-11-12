@@ -6,7 +6,7 @@ import LoadingSpinner from '../Common/LoadingSpinner/LoadingSpinner';
 const PrivateRoute = ({ children, ...rest }) => {
     const { user, loadingUserOnReload } = useAuthContext();
     return (
-        loadingUserOnReload ? <LoadingSpinner /> :
+        loadingUserOnReload ? <LoadingSpinner style={{ py: 8 }} /> :
             <Route {...rest} render={({ location }) => user ? children :
                 <Redirect to={{ pathname: '/auth', state: { from: location } }} />
             } />

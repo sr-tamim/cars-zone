@@ -18,6 +18,7 @@ import DashboardReview from '../components/Dashboard/DashboardReview';
 import MakeAdmin from '../components/Dashboard/AdminParts/MakeAdmin';
 import AdminRoute from '../components/AdminRoute/AdminRoute';
 import { Alert, Snackbar } from '@mui/material';
+import AddNewCar from '../components/Dashboard/AdminParts/AddNewCar';
 
 const Icon = styled('i')(({ theme }) => ({
     color: 'inherit', fontSize: '20px'
@@ -155,11 +156,14 @@ const Dashboard = () => {
                         <Switch>
                             <Route path={`${path}/pay`}><DashboardPay /></Route>
                             <Route path={`${path}/orders`}>
-                                <DashboardOrders processStatus={processStatus} setProcessStatus={setProcessStatus} handleSnackBar={handleSnackBar} />
+                                <DashboardOrders setProcessStatus={setProcessStatus} handleSnackBar={handleSnackBar} />
                             </Route>
                             <Route path={`${path}/review/add`}><DashboardReview /></Route>
                             <AdminRoute path={`${path}/make_admin`}>
-                                <MakeAdmin processStatus={processStatus} setProcessStatus={setProcessStatus} handleSnackBar={handleSnackBar} />
+                                <MakeAdmin setProcessStatus={setProcessStatus} handleSnackBar={handleSnackBar} />
+                            </AdminRoute>
+                            <AdminRoute path={`${path}/add_car`}>
+                                <AddNewCar setProcessStatus={setProcessStatus} handleSnackBar={handleSnackBar} />
                             </AdminRoute>
                         </Switch>
                     </Box>
