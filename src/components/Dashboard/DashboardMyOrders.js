@@ -11,17 +11,14 @@ import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import LoadingSpinner from '../Common/LoadingSpinner/LoadingSpinner';
 import MyModal from '../Common/Modal/Modal';
+import MenuItem from '@mui/material/MenuItem';
+import Select from '@mui/material/Select';
+
 
 const columns = [
     { id: 'carID', label: 'Car\u00a0ID', minWidth: 50 },
     { id: 'carName', label: 'Car\u00a0Name', minWidth: 170 },
     { id: 'price', label: 'Price\u00a0$', align: 'right', minWidth: 120 },
-    {
-        id: 'status',
-        label: 'Status',
-        minWidth: 100,
-        align: 'right',
-    },
     {
         id: 'date',
         label: 'Date',
@@ -70,6 +67,11 @@ const DashboardMyOrders = () => {
         };
     })
 
+    const handleChange = (event) => {
+        console.log(event.target.value);
+    };
+
+
     return (!myOrders ? <LoadingSpinner /> :
         <Box>
             <Typography variant="h4" color="primary"
@@ -91,6 +93,9 @@ const DashboardMyOrders = () => {
                                         {column.label}
                                     </TableCell>
                                 ))}
+                                <TableCell align="right"
+                                    style={{ minWidth: 80 }}
+                                >Status</TableCell>
                                 <TableCell align="right">Action</TableCell>
                             </TableRow>
                         </TableHead>
@@ -109,14 +114,26 @@ const DashboardMyOrders = () => {
                                             const value = row[column.id];
                                             return (
                                                 <TableCell key={column.id} align={column.align}
-                                                    sx={{
-                                                        color: value === 'pending' ? 'red' : 'inherit'
-                                                    }}
-                                                >
-                                                    {value}
+                                                >{value}
                                                 </TableCell>
                                             );
                                         })}
+                                        <TableCell align="right">
+                                            <Select
+                                                variant="standard"
+                                                value={row.status}
+                                                onChange={handleChange}
+                                                sx={{
+                                                    fontSize: '1em', '&>div': { py: 1, px: 1 },
+                                                    '&::before,&::after': { border: 0 },
+                                                    '&:hover::before': { border: '0 !important' }
+                                                }}
+                                            >
+                                                <MenuItem value={'pending'}>Pending</MenuItem>
+                                                <MenuItem value={'shipped'}>Shipped</MenuItem>
+                                                <MenuItem value={'done'}>Done</MenuItem>
+                                            </Select>
+                                        </TableCell>
                                         <TableCell align="right">
                                             <Button variant="outlined"
                                                 onClick={() => handleDelete(row._id)}>Delete</Button>
