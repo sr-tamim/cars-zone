@@ -15,6 +15,8 @@ import { BrowserRouter, Switch, Route, useRouteMatch } from 'react-router-dom';
 import DashboardPay from '../components/Dashboard/DashboardPay';
 import DashboardMyOrders from '../components/Dashboard/DashboardMyOrders';
 import DashboardReview from '../components/Dashboard/DashboardReview';
+import MakeAdmin from '../components/Dashboard/AdminParts/MakeAdmin';
+import AdminRoute from '../components/AdminRoute/AdminRoute';
 
 const Icon = styled('i')(({ theme }) => ({
     color: 'inherit', fontSize: '20px'
@@ -140,6 +142,7 @@ const Dashboard = () => {
                             <Route path={`${path}/pay`}><DashboardPay /></Route>
                             <Route path={`${path}/myorders`}><DashboardMyOrders /></Route>
                             <Route path={`${path}/review/add`}><DashboardReview /></Route>
+                            <AdminRoute path={`${path}/make_admin`}><MakeAdmin /></AdminRoute>
                         </Switch>
                     </Box>
                 </Main>

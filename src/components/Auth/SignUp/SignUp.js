@@ -11,7 +11,7 @@ const SignUp = () => {
 
     useEffect(() => setAuthError(null), [setAuthError])
     useEffect(() => {
-        authError && setValues({ email: '', password: '', showPassword: '' })
+        authError || setValues({ email: '', password: '', showPassword: '' })
     }, [authError])
 
     const [values, setValues] = React.useState({
@@ -109,7 +109,7 @@ const SignUp = () => {
                     <FormControl sx={{ m: 1 }} color="primary" variant="standard" fullWidth >
                         <InputLabel htmlFor="signUp-passwordField">Confirm Password</InputLabel>
                         <Input
-                            id="signUp-passwordField"
+                            id="signUp-passwordField2"
                             type={values.showPassword ? 'text' : 'password'}
                             defaultValue={values.confirmPassword}
                             required

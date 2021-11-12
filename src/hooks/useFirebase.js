@@ -37,8 +37,8 @@ const useFirebase = () => {
     // save user info in database
     function saveUserToDB(userInfo) {
         const { email, displayName, photoURL } = userInfo;
-        axios.post('http://localhost:5000/users', {
-            email, displayName, photoURL, role: 'public'
+        axios.post('https://cars-zone.herokuapp.com/users', {
+            email, displayName, photoURL
         })
             .then(({ data }) => data.upsertedCount && console.log('user added to database'))
             .catch(err => console.log(err))
@@ -46,7 +46,7 @@ const useFirebase = () => {
     }
     // get user info from database
     function getUserFromDB(email) {
-        axios.get(`http://localhost:5000/users/${email}`)
+        axios.get(`https://cars-zone.herokuapp.com/users/${email}`)
             .then(({ data }) => {
                 setUser(data);
                 loadingUserOnReload && setLoadingUserOnRelaod(false);
@@ -84,7 +84,7 @@ const useFirebase = () => {
 
     return {
         user, setUser, loadingUserOnReload, authLoading, setAuthLoading,
-        authError, setAuthError,
+        authError, setAuthError, getUserFromDB,
         logOut, googleLogin, signUp, loginEmail
     }
 };
