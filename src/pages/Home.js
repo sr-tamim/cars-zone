@@ -3,6 +3,7 @@ import { Box } from '@mui/system';
 import React from 'react';
 import { NavLink } from 'react-router-dom';
 import CarsSection from '../components/CarsSection/CarsSection';
+import GuaranteeSection from '../components/Homepage/GuaranteeSection';
 
 const Home = () => {
     return (
@@ -23,7 +24,10 @@ const Home = () => {
                         >View More</Button></NavLink>
                 </Box>
             </section>
-        </div >
+            <section>
+                <GuaranteeSection />
+            </section>
+        </div>
     );
 };
 

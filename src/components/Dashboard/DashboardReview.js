@@ -25,9 +25,15 @@ const DashboardReview = () => {
         const date = Date.now();
         const review = { ...values, email, displayName, photoURL, date };
         axios.post('https://cars-zone.herokuapp.com/review', review)
-            .then(({ data }) => data.insertedId ?
-                setSubmissionStatus({ success: 'Review added successfully' })
-                : setSubmissionStatus({ error: 'Review not added' }))
+            .then(({ data }) => {
+                if (data.insertedId) {
+                    setSubmissionStatus({ success: 'Review added successfully' })
+                    setValues({ review: '', rating: 5 })
+                    event.target.reset()
+                } else {
+                    setSubmissionStatus({ error: 'Review not added' })
+                }
+            })
             .catch(err => console.log(err));
         event.preventDefault();
     }
