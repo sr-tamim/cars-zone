@@ -3,18 +3,21 @@ import { Box } from '@mui/system';
 import React from 'react';
 import { NavLink } from 'react-router-dom';
 import CarsSection from '../components/CarsSection/CarsSection';
-import GuaranteeSection from '../components/Homepage/GuaranteeSection';
+import WhyUsSection from '../components/Homepage/WhyUsSection';
 import HomeBanner from '../components/Homepage/HomeBanner';
 import ReviewSection from '../components/Homepage/ReviewSection';
 
 const Home = () => {
     return (
         <div>
+            {/* home banner */}
             <Box>
                 <HomeBanner />
             </Box>
+
+            {/* offers section */}
             <section style={{ padding: '100px 0 50px' }}>
-                <GuaranteeSection />
+                <WhyUsSection />
             </section>
             <section>
                 <CarsSection dataAmount={6} />
