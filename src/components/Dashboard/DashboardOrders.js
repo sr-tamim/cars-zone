@@ -14,7 +14,7 @@ import MyModal from '../Common/Modal/Modal';
 import MenuItem from '@mui/material/MenuItem';
 import Select from '@mui/material/Select';
 
-
+// columns of table
 const columns = [
     { id: 'carName', label: 'Car\u00a0Name', minWidth: 200 },
     { id: 'carID', label: 'Car\u00a0ID', minWidth: 50, align: 'right' },
@@ -27,41 +27,48 @@ const columns = [
     }
 ];
 
-
+// dashboard order component
 const DashboardOrders = ({ setProcessStatus, handleSnackBar }) => {
-    const { user } = useAuthContext();
-    const [modalOpen, setModalOpen] = useState(false);
-    const [orders, setOrders] = useState(null);
+    // firstly got process status and notification snackbar from parent component
 
+    const { user } = useAuthContext(); // get user info from user context
+    const [modalOpen, setModalOpen] = useState(false); // delete modal open state
+    const [orders, setOrders] = useState(null); // all orders
+
+    // load data from server
     function loadData() {
         axios.get(`https://cars-zone.herokuapp.com/orders/${user.email}`)
             .then(({ data }) => setOrders(data))
             .catch(err => console.log(err))
     }
-    useEffect(loadData, [user.email])
+    useEffect(loadData, [user.email]) // load data when page loaded
 
     // deletion process
-    const [deletionID, setDeletionID] = useState(null);
+    const [deletionID, setDeletionID] = useState(null); // delete order id holder
     const handleDelete = (id) => {
-        setDeletionID(id); setModalOpen(true);
+        setDeletionID(id); setModalOpen(true); // open delete modal and set delete id
     }
+
+    // delete order function
     const deleteOrder = (id) => {
         axios.delete(`https://cars-zone.herokuapp.com/order/${id}`)
             .then(({ data }) => {
                 if (data.deletedCount) {
-                    loadData(); setProcessStatus({
-                        success: 'Deleted Successfully'
-                    });
-                    handleSnackBar()
+                    loadData();
+                    setProcessStatus({ success: 'Deleted Successfully' });
+                    handleSnackBar() // show notification popup containing status
                 }
             })
-            .catch(err => console.log(err))
+            .catch(err => {
+                loadData(); setProcessStatus({ error: err.message })
+                handleSnackBar() // show notification popup containing status
+            })
     }
 
     // set rows of table
     const rows = !orders ? [] : orders.map(order => {
         const { date } = order;
-        const dateStamp = new Date(date);
+        const dateStamp = new Date(date); // get date object from millisecond
         return { ...order, date: dateStamp.toLocaleString() };
     })
 
@@ -74,99 +81,109 @@ const DashboardOrders = ({ setProcessStatus, handleSnackBar }) => {
                     loadData(); setProcessStatus({
                         success: 'Status Changed Successfully'
                     });
-                    handleSnackBar();
+                    handleSnackBar() // show notification popup containing status
                 }
             })
-            .catch(err => console.log(err))
+            .catch(err => {
+                loadData(); setProcessStatus({ error: err.message })
+                handleSnackBar() // show notification popup containing status
+            })
     };
 
-
+    // return jsx objects depending on user role 
     return (!orders ? <LoadingSpinner /> :
-        <Box sx={{ height: '100%' }}>
-            <Typography variant="h4" color="primary"
-                align="center" fontWeight='bold'>
-                {user?.role === 'admin' ? 'All Orders' : 'My Orders'}
-                {user?.role !== 'admin' && <Typography>{user.email}</Typography>}
-            </Typography>
-            <Box sx={{ my: 4, position: 'relative', height: '80%' }}>
-                <TableContainer sx={{ height: '100%', position: 'absolute', top: 0, left: 0 }}>
-                    <Table stickyHeader aria-label="Dashboard my orders table">
-                        <TableHead>
-                            <TableRow>
-                                <TableCell>Sl no.</TableCell>
-                                {user?.role === 'admin' && <TableCell>Email</TableCell>}
-                                {columns.map((column) => (
-                                    <TableCell
-                                        key={column.id}
-                                        align={column.align}
-                                        style={{ minWidth: column.minWidth }}
-                                    >
-                                        {column.label}
-                                    </TableCell>
-                                ))}
-                                <TableCell align="right"
-                                    style={{ minWidth: 80 }}
-                                >Status</TableCell>
-                                <TableCell align="right">Action</TableCell>
-                            </TableRow>
-                        </TableHead>
-                        <TableBody>
-                            {rows.map((row, index) => {
-                                return (
-                                    <TableRow hover role="checkbox"
-                                        sx={{
-                                            textTransform: 'capitalize',
-                                            '&:nth-of-type(odd)': {
-                                                backgroundColor: '#00000012',
-                                            },
-                                        }}
-                                        tabIndex={-1} key={row._id}
-                                    >
-                                        <TableCell>{index + 1}</TableCell>
-                                        {user?.role === 'admin' && <TableCell sx={{
-                                            textTransform: 'none'
-                                        }}>{row.email}</TableCell>
-                                        }
-                                        {columns.map((column) => {
-                                            const value = row[column.id];
-                                            return (
-                                                <TableCell key={column.id} align={column.align}
-                                                >{value}
-                                                </TableCell>
-                                            );
-                                        })}
-                                        <TableCell align="right" sx={{ pr: 0 }}>
-                                            <Select readOnly={user.role !== 'admin'}
-                                                variant="standard"
-                                                value={row.status}
-                                                onChange={(e) => handleStatusChange(e, row._id)}
-                                                sx={{
-                                                    fontSize: '1em', '&>div': { py: 1, px: 1 },
-                                                    '&::before,&::after': { border: 0 },
-                                                    '&:hover::before': { border: '0 !important' }
-                                                }}
-                                            >
-                                                <MenuItem value={'pending'}>Pending</MenuItem>
-                                                <MenuItem value={'shipped'}>Shipped</MenuItem>
-                                                <MenuItem value={'done'}>Done</MenuItem>
-                                            </Select>
+        orders.length === 0 ?
+            <h1 style={{ textAlign: 'center', color: 'gray' }}>Nothing Found</h1> :
+            <Box sx={{ height: '100%' }}>
+
+                <Typography variant="h4" color="primary"
+                    align="center" fontWeight='bold'>
+                    {user?.role === 'admin' ? 'All Orders' : 'My Orders'}
+                    {user?.role !== 'admin' && <Typography>{user.email}</Typography>}
+                </Typography>
+
+                {/* table container */}
+                <Box sx={{ my: 4, position: 'relative', height: '80%' }}>
+                    <TableContainer sx={{ height: '100%', position: 'absolute', top: 0, left: 0 }}>
+                        <Table stickyHeader aria-label="Dashboard my orders table">
+                            <TableHead>
+                                <TableRow>
+                                    <TableCell>Sl no.</TableCell>
+                                    {user?.role === 'admin' && <TableCell>Email</TableCell>}
+                                    {columns.map((column) => (
+                                        <TableCell
+                                            key={column.id}
+                                            align={column.align}
+                                            style={{ minWidth: column.minWidth }}
+                                        >
+                                            {column.label}
                                         </TableCell>
-                                        <TableCell align="right">
-                                            <Button variant="outlined"
-                                                onClick={() => handleDelete(row._id)}>Delete</Button>
-                                        </TableCell>
-                                    </TableRow>
-                                );
-                            })}
-                        </TableBody>
-                    </Table>
-                </TableContainer>
+                                    ))}
+                                    <TableCell align="right"
+                                        style={{ minWidth: 80 }}
+                                    >Status</TableCell>
+                                    <TableCell align="right">Action</TableCell>
+                                </TableRow>
+                            </TableHead>
+                            <TableBody>
+                                {rows.map((row, index) => {
+                                    return (
+                                        <TableRow hover role="checkbox"
+                                            sx={{
+                                                textTransform: 'capitalize',
+                                                '&:nth-of-type(odd)': {
+                                                    backgroundColor: '#00000012',
+                                                },
+                                            }}
+                                            tabIndex={-1} key={row._id}
+                                        >
+                                            <TableCell>{index + 1}</TableCell>
+                                            {user?.role === 'admin' && <TableCell sx={{
+                                                textTransform: 'none'
+                                            }}>{row.email}</TableCell>
+                                            }
+                                            {columns.map((column) => {
+                                                const value = row[column.id];
+                                                return (
+                                                    <TableCell key={column.id} align={column.align}
+                                                    >{value}
+                                                    </TableCell>
+                                                );
+                                            })}
+                                            <TableCell align="right" sx={{ pr: 0 }}>
+                                                <Select readOnly={user.role !== 'admin'}
+                                                    variant="standard"
+                                                    value={row.status}
+                                                    onChange={(e) => handleStatusChange(e, row._id)}
+                                                    sx={{
+                                                        fontSize: '1em', '&>div': { py: 1, px: 1 },
+                                                        '&::before,&::after': { border: 0 },
+                                                        '&:hover::before': { border: '0 !important' }
+                                                    }}
+                                                >
+                                                    <MenuItem value={'pending'}>Pending</MenuItem>
+                                                    <MenuItem value={'shipped'}>Shipped</MenuItem>
+                                                    <MenuItem value={'done'}>Done</MenuItem>
+                                                </Select>
+                                            </TableCell>
+                                            <TableCell align="right">
+                                                <Button variant="outlined"
+                                                    onClick={() => handleDelete(row._id)}>Delete</Button>
+                                            </TableCell>
+                                        </TableRow>
+                                    );
+                                })}
+                            </TableBody>
+                        </Table>
+                    </TableContainer>
+                </Box>
+
+                {/* delete modal */}
+                <MyModal open={modalOpen} setOpen={setModalOpen}
+                    confirmedFunction={() => deleteOrder(deletionID)}>
+                    Confirm your order deletion process. You can't undo this
+                </MyModal>
             </Box>
-            <MyModal open={modalOpen} setOpen={setModalOpen}
-                confirmedFunction={() => deleteOrder(deletionID)}>
-                Confirm your order deletion process. You can't undo this
-            </MyModal>
-        </Box>
     );
 };
 

@@ -2,6 +2,7 @@ import { Button, Typography } from '@mui/material';
 import { Box } from '@mui/system';
 import React from 'react';
 
+// dashboad payment component
 const DashboardPay = () => {
     return (
         <Box sx={{ textAlign: 'center', py: 8 }}>

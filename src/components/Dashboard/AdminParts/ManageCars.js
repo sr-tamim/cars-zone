@@ -11,7 +11,7 @@ import axios from 'axios';
 import MyModal from '../../Common/Modal/Modal';
 import LoadingSpinner from '../../Common/LoadingSpinner/LoadingSpinner';
 
-
+// table columns
 const columns = [
     { id: 'carID', label: 'Car ID', minWidth: 50 },
     { id: 'carImg', label: 'Thumbnail', minWidth: 50 },
@@ -22,9 +22,10 @@ const columns = [
 
 
 const ManageCars = ({ setProcessStatus, handleSnackBar }) => {
-    const [modalOpen, setModalOpen] = useState(false);
-    const [cars, setCars] = useState(null);
+    const [modalOpen, setModalOpen] = useState(false); // delete modal state
+    const [cars, setCars] = useState(null); // all cars info
 
+    // load all cars info
     useEffect(loadData, [])
     function loadData() {
         axios.get(`https://cars-zone.herokuapp.com/cars/all`)
@@ -34,27 +35,32 @@ const ManageCars = ({ setProcessStatus, handleSnackBar }) => {
 
 
     // deletion process
-    const [deletionID, setDeletionID] = useState(null);
+    const [deletionID, setDeletionID] = useState(null); // carID which have to be deleted
     const handleDelete = (id) => {
-        setDeletionID(id); setModalOpen(true);
+        setDeletionID(id); setModalOpen(true); // open delete modal & set delete id
     }
+    // delete car from database
     const deleteCarInfo = (id) => {
         axios.delete(`https://cars-zone.herokuapp.com/cars/${id}`)
             .then(({ data }) => {
                 if (data.deletedCount) {
-                    loadData(); setProcessStatus({
-                        success: 'Deleted Successfully'
-                    });
+                    loadData();
+                    setProcessStatus({ success: 'Deleted Successfully' });
                     handleSnackBar()
                 }
             })
-            .catch(err => console.log(err))
+            .catch(err => {
+                loadData(); setProcessStatus({ error: err.message })
+                handleSnackBar() // show notification popup containing status
+            })
     }
 
     return (!cars ? <LoadingSpinner /> :
         <Box sx={{ height: '100%' }}>
             <Typography variant="h4" align="center" color="primary" fontWeight="bold">Manage All Cars</Typography>
             <Box sx={{ my: 4, position: 'relative', height: '80%' }}>
+
+                {/* all cars info containing table */}
                 <TableContainer sx={{ height: '100%', position: 'absolute', top: 0, left: 0 }}>
                     <Table stickyHeader aria-label="Dashboard my orders table">
                         <TableHead>
@@ -72,8 +78,11 @@ const ManageCars = ({ setProcessStatus, handleSnackBar }) => {
                                 <TableCell align="right">Action</TableCell>
                             </TableRow>
                         </TableHead>
+
+                        {/* table body */}
                         <TableBody>
                             {cars.map((carDetails, index) => {
+                                // destructure car info
                                 const { carID, carName, carImg, carType, color, fuel, engine, price } = carDetails;
                                 return (
                                     <TableRow hover role="checkbox"
@@ -85,8 +94,9 @@ const ManageCars = ({ setProcessStatus, handleSnackBar }) => {
                                         }}
                                         tabIndex={-1} key={carDetails._id}
                                     >
-                                        <TableCell>{index + 1}</TableCell>
-                                        <TableCell>{carID}</TableCell>
+                                        <TableCell>{index + 1}</TableCell> {/* serial number */}
+                                        <TableCell>{carID}</TableCell>      {/* car id */}
+                                        {/* car thumbnail image */}
                                         <TableCell>
                                             <Box sx={{
                                                 width: '50px', height: '50px',
@@ -102,6 +112,7 @@ const ManageCars = ({ setProcessStatus, handleSnackBar }) => {
                                         </TableCell>
                                         <TableCell align='right'>{price}</TableCell>
                                         <TableCell align="right">
+                                            {/* delete button */}
                                             <Button variant="outlined"
                                                 onClick={() => handleDelete(carID)}>Delete</Button>
                                         </TableCell>
@@ -112,6 +123,8 @@ const ManageCars = ({ setProcessStatus, handleSnackBar }) => {
                     </Table>
                 </TableContainer>
             </Box>
+
+            {/* delete modal component */}
             <MyModal open={modalOpen} setOpen={setModalOpen}
                 confirmedFunction={() => deleteCarInfo(deletionID)}>
                 Deleting a car info from database is permanent. This can't be undone

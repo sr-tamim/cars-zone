@@ -16,16 +16,20 @@ import ManageCars from '../components/Dashboard/AdminParts/ManageCars';
 import useAuthContext from '../others/useAuthContext';
 import AllMessages from '../components/Dashboard/AdminParts/AllMessages';
 
+// styled component for font awesome icon
 const Icon = styled('i')(({ theme }) => ({
     color: 'inherit', fontSize: '20px'
 }));
+
+// styled component for react router NavLink
 const LinkWrap = styled(NavLink)(() => ({
     color: 'inherit', textDecoration: 'none',
     '& > button': { margin: '7px 0', padding: '10px 30px', fontSize: '20px' }
 }))
 
-const drawerWidth = 240;
+const drawerWidth = 240; // dashboard navigation drawer width
 
+// drawer header styled component
 const DrawerHeader = styled('div')(({ theme }) => ({
     display: 'flex',
     alignItems: 'center',
@@ -37,12 +41,18 @@ const DrawerHeader = styled('div')(({ theme }) => ({
 
 
 const Dashboard = () => {
-    const { user, logOut } = useAuthContext();
+    const { user, logOut } = useAuthContext(); // get user info & log out function
+
+    // material ui theme
     const theme = useTheme();
-    const [open, setOpen] = useState(true);
-    const [isMobile, setIsMobile] = useState(false);
+
+    const [open, setOpen] = useState(true); // drawer open state
+    const [isMobile, setIsMobile] = useState(false); // device state for responsive ui
+
+    // working status state
     const [processStatus, setProcessStatus] = React.useState(null);
 
+    // drawer opening and closing functions
     const handleDrawerOpen = () => setOpen(true)
     const handleDrawerClose = () => setOpen(false)
 
@@ -93,28 +103,27 @@ const Dashboard = () => {
         }),
     }));
 
-
     // nested routing
     const { path, url } = useRouteMatch();
 
-
+    // notification snack bar state
     const [snackBar, setSnackBar] = React.useState(false);
-    const handleSnackBar = () => {
-        setSnackBar(true);
-    };
+
+    // handle notification snack bar opening and closing
+    const handleSnackBar = () => setSnackBar(true)
     const handleSnackBarClose = (event, reason) => {
-        if (reason === 'clickaway') {
-            return;
-        }
+        if (reason === 'clickaway') { return }
         setSnackBar(false);
     };
 
 
     return (
+        // nested react routing
         <BrowserRouter>
             <Box sx={{ display: 'flex', position: 'relative', minHeight: '80vh' }}>
                 <CssBaseline />
                 <AppBar position="absolute" elevation={1} open={open}>
+                    {/* top toolbar */}
                     <Toolbar>
                         <IconButton
                             color="inherit"
@@ -129,6 +138,8 @@ const Dashboard = () => {
                         </Typography>
                     </Toolbar>
                 </AppBar>
+
+                {/* navigation drawer */}
                 <Drawer
                     sx={{
                         width: drawerWidth,
@@ -140,8 +151,7 @@ const Dashboard = () => {
                     }}
                     variant={isMobile ? "temporary" : "persistent"}
                     anchor="left"
-                    open={open}
-                >
+                    open={open}>
                     <DrawerHeader>
                         <IconButton onClick={handleDrawerClose}>
                             {theme.direction === 'ltr' ? <ChevronLeftIcon /> : <ChevronRightIcon />}
@@ -150,47 +160,55 @@ const Dashboard = () => {
                     <Divider />
                     <DashboardNav url={url} />
                 </Drawer>
+
+                {/* main part of dashboard */}
                 <Main open={open}>
                     <DrawerHeader />
                     <Box sx={{ height: '100%' }}>
                         <Switch>
-                            <Route exact path={path}><Box sx={{
-                                display: 'flex', alignItems: 'center', flexDirection: 'column'
-                            }}>{
-                                    user.role === 'admin' ? <>
-                                        <LinkWrap to={`${url}/orders`}>
-                                            <Button>Manage All Orders</Button>
-                                        </LinkWrap>
-                                        <LinkWrap to={`${url}/make_admin`}>
-                                            <Button>Add new admin</Button>
-                                        </LinkWrap>
-                                        <LinkWrap to={`${url}/add_car`}>
-                                            <Button>Add new car in shop</Button>
-                                        </LinkWrap>
-                                        <LinkWrap to={`${url}/manage_cars`}>
-                                            <Button>Manage all added cars</Button>
-                                        </LinkWrap>
-                                    </> : <>
-                                        <LinkWrap to={`${url}/orders`}>
-                                            <Button>Manage My Orders</Button>
-                                        </LinkWrap>
-                                        <LinkWrap to={`${url}/review`}>
-                                            <Button>Write A Review</Button>
-                                        </LinkWrap>
-                                        <LinkWrap to="/profile">
-                                            <Button>View My Profile</Button>
-                                        </LinkWrap>
-                                    </>
-                                }
-                                <Button sx={{ px: 6, fontSize: '20px', my: 1.5 }}
-                                    onClick={logOut}>Sign Out</Button>
-                            </Box></Route>
+                            {/* dashboard home */}
+                            <Route exact path={path}>
+                                <Box sx={{
+                                    display: 'flex', alignItems: 'center', flexDirection: 'column'
+                                }}>{
+                                        user.role === 'admin' ? <>
+                                            <LinkWrap to={`${url}/orders`}>
+                                                <Button>Manage All Orders</Button>
+                                            </LinkWrap>
+                                            <LinkWrap to={`${url}/make_admin`}>
+                                                <Button>Add new admin</Button>
+                                            </LinkWrap>
+                                            <LinkWrap to={`${url}/add_car`}>
+                                                <Button>Add new car in shop</Button>
+                                            </LinkWrap>
+                                            <LinkWrap to={`${url}/manage_cars`}>
+                                                <Button>Manage all added cars</Button>
+                                            </LinkWrap>
+                                        </> : <>
+                                            <LinkWrap to={`${url}/orders`}>
+                                                <Button>Manage My Orders</Button>
+                                            </LinkWrap>
+                                            <LinkWrap to={`${url}/review`}>
+                                                <Button>Write A Review</Button>
+                                            </LinkWrap>
+                                            <LinkWrap to="/profile">
+                                                <Button>View My Profile</Button>
+                                            </LinkWrap>
+                                        </>
+                                    }
+                                    <Button sx={{ px: 6, fontSize: '20px', my: 1.5 }}
+                                        onClick={logOut}>Sign Out</Button>
+                                </Box>
+                            </Route>
 
+                            {/* different routes */}
                             <Route path={`${path}/pay`}><DashboardPay /></Route>
                             <Route path={`${path}/orders`}>
                                 <DashboardOrders setProcessStatus={setProcessStatus} handleSnackBar={handleSnackBar} />
                             </Route>
                             <Route path={`${path}/review/add`}><DashboardReview /></Route>
+
+                            {/* admin routes */}
                             <AdminRoute path={`${path}/make_admin`}>
                                 <MakeAdmin setProcessStatus={setProcessStatus} handleSnackBar={handleSnackBar} />
                             </AdminRoute>
@@ -207,13 +225,18 @@ const Dashboard = () => {
                     </Box>
                 </Main>
             </Box>
+
+            {/* notification snackbar for successful status */}
             {processStatus?.success &&
                 <Snackbar open={snackBar} autoHideDuration={4000} onClose={handleSnackBarClose}>
                     <Alert onClose={handleSnackBarClose} severity="success" sx={{ width: '100%' }}>
                         {processStatus?.success}
                     </Alert>
                 </Snackbar>
-            }{processStatus?.error &&
+            }
+
+            {/* notification snack bar for error status */}
+            {processStatus?.error &&
                 <Snackbar open={snackBar} autoHideDuration={4000} onClose={handleSnackBarClose}>
                     <Alert onClose={handleSnackBarClose} severity="error" sx={{ width: '100%' }}>
                         {processStatus?.error}
