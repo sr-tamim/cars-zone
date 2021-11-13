@@ -4,10 +4,14 @@ import React from 'react';
 import { NavLink } from 'react-router-dom';
 import CarsSection from '../components/CarsSection/CarsSection';
 import GuaranteeSection from '../components/Homepage/GuaranteeSection';
+import ReviewSection from '../components/Homepage/ReviewSection';
 
 const Home = () => {
     return (
         <div>
+            <section>
+                <GuaranteeSection />
+            </section>
             <section>
                 <CarsSection dataAmount={6} />
                 <Box sx={{ textAlign: 'center', my: 6 }}>
@@ -21,9 +25,9 @@ const Home = () => {
                         >View More</Button></NavLink>
                 </Box>
             </section>
-            <section>
-                <GuaranteeSection />
-            </section>
+            <Box sx={{ background: 'url(/images/homepage/aventador-1.jpg) no-repeat fixed center center', backgroundSize: 'cover' }}>
+                <ReviewSection />
+            </Box>
         </div>
     );
 };
