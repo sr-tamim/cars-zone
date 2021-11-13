@@ -22,15 +22,9 @@ const columns = [
     {
         id: 'date',
         label: 'Date',
-        minWidth: 100,
+        minWidth: 130,
         align: 'right',
-    },
-    {
-        id: 'time',
-        label: 'Time',
-        minWidth: 100,
-        align: 'right',
-    },
+    }
 ];
 
 
@@ -68,13 +62,10 @@ const DashboardOrders = ({ setProcessStatus, handleSnackBar }) => {
     const rows = !orders ? [] : orders.map(order => {
         const { date } = order;
         const dateStamp = new Date(date);
-        return {
-            ...order,
-            date: dateStamp.toLocaleDateString(),
-            time: dateStamp.toLocaleTimeString()
-        };
+        return { ...order, date: dateStamp.toLocaleString() };
     })
 
+    // change order status
     const handleStatusChange = (event, id) => {
         const status = event.target.value;
         axios.put('https://cars-zone.herokuapp.com/order', { id, status })

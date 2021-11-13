@@ -21,10 +21,9 @@ const slideStyles = {
     maxHeight: 300, textAlign: 'justify',
     maxWidth: 400, position: 'relative',
     display: 'flex', flexDirection: 'column',
-    alignItems: 'center',
-    overflow: 'hidden', background: '#ffffff11',
-    width: '100%', border: '1px dashed gray',
-    borderRadius: '5px', px: 5, py: 4,
+    alignItems: 'center', overflow: 'hidden',
+    background: 'radial-gradient(#ff878744,#ff000000)',
+    width: '100%', px: 5, py: 6,
 }
 
 const AutoPlaySwipeableViews = autoPlay(SwipeableViews);
@@ -55,7 +54,7 @@ const ReviewSection = () => {
     }, [])
 
     return (reviews &&
-        <Box sx={{ display: 'flex', justifyContent: 'center', background: '#00000055', py: 10 }}>
+        <Box sx={{ display: 'flex', justifyContent: 'center', background: '#00000077', py: 10 }}>
             <Box sx={{
                 maxWidth: 700, flexGrow: 1, color: 'white',
                 '& > div > div': { alignItems: 'center', }
@@ -64,7 +63,7 @@ const ReviewSection = () => {
                     axis={'x'}
                     index={activeStep}
                     onChangeIndex={handleStepChange}
-                    enableMouseEvents interval={2000}
+                    enableMouseEvents interval={5000}
                 >
                     {
                         reviews.map((step, index) => (

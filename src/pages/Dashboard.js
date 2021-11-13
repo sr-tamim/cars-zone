@@ -14,6 +14,7 @@ import AdminRoute from '../components/AdminRoute/AdminRoute';
 import AddNewCar from '../components/Dashboard/AdminParts/AddNewCar';
 import ManageCars from '../components/Dashboard/AdminParts/ManageCars';
 import useAuthContext from '../others/useAuthContext';
+import AllMessages from '../components/Dashboard/AdminParts/AllMessages';
 
 const Icon = styled('i')(({ theme }) => ({
     color: 'inherit', fontSize: '20px'
@@ -198,6 +199,9 @@ const Dashboard = () => {
                             </AdminRoute>
                             <AdminRoute path={`${path}/manage_cars`}>
                                 <ManageCars setProcessStatus={setProcessStatus} handleSnackBar={handleSnackBar} />
+                            </AdminRoute>
+                            <AdminRoute path={`${path}/all_messages`}>
+                                <AllMessages />
                             </AdminRoute>
                         </Switch>
                     </Box>
