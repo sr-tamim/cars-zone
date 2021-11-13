@@ -65,7 +65,7 @@ const Navbar = () => {
                         </NavLink>
                         <NavLink to="/cars" activeClassName="active"
                             onClick={toggleHeaderVisibility}>
-                            <Typography variant="h6">Cars</Typography>
+                            <Typography variant="h6">Explore</Typography>
                         </NavLink>
                         <NavLink to="/contact" activeClassName="active"
                             onClick={toggleHeaderVisibility}>
