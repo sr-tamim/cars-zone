@@ -24,10 +24,12 @@ const DashboardNav = ({ url }) => {
     const { user, logOut } = useAuthContext();
     return (
         <List>
-            <ListItem button>
-                <ListItemIcon><DashboardIcon /></ListItemIcon>
-                <ListItemText>Dashboard</ListItemText>
-            </ListItem>
+            <LinkWrap exact to={`${url}`} activeClassName='active'>
+                <ListItem button>
+                    <ListItemIcon><DashboardIcon /></ListItemIcon>
+                    <ListItemText>Dashboard</ListItemText>
+                </ListItem>
+            </LinkWrap>
             {user?.role !== 'admin' &&
                 <LinkWrap to={`${url}/pay`} activeClassName='active'>
                     <ListItem button>

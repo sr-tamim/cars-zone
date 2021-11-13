@@ -1,30 +1,27 @@
 import React, { useEffect, useState } from 'react';
 import { styled, useTheme } from '@mui/material/styles';
-import Box from '@mui/material/Box';
-import Drawer from '@mui/material/Drawer';
-import CssBaseline from '@mui/material/CssBaseline';
+import { Box, Drawer, Button, CssBaseline, Toolbar, Typography, Divider, IconButton, Alert, Snackbar } from '@mui/material';
 import MuiAppBar from '@mui/material/AppBar';
-import Toolbar from '@mui/material/Toolbar';
-import Typography from '@mui/material/Typography';
-import Divider from '@mui/material/Divider';
-import IconButton from '@mui/material/IconButton';
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
 import ChevronRightIcon from '@mui/icons-material/ChevronRight';
 import DashboardNav from '../components/Dashboard/DashboardNav';
-import { BrowserRouter, Switch, Route, useRouteMatch } from 'react-router-dom';
+import { BrowserRouter, Switch, Route, useRouteMatch, NavLink } from 'react-router-dom';
 import DashboardPay from '../components/Dashboard/DashboardPay';
 import DashboardOrders from '../components/Dashboard/DashboardOrders';
 import DashboardReview from '../components/Dashboard/DashboardReview';
 import MakeAdmin from '../components/Dashboard/AdminParts/MakeAdmin';
 import AdminRoute from '../components/AdminRoute/AdminRoute';
-import { Alert, Snackbar } from '@mui/material';
 import AddNewCar from '../components/Dashboard/AdminParts/AddNewCar';
 import ManageCars from '../components/Dashboard/AdminParts/ManageCars';
+import useAuthContext from '../others/useAuthContext';
 
 const Icon = styled('i')(({ theme }) => ({
     color: 'inherit', fontSize: '20px'
 }));
-
+const LinkWrap = styled(NavLink)(() => ({
+    color: 'inherit', textDecoration: 'none',
+    '& > button': { margin: '7px 0', padding: '10px 30px', fontSize: '20px' }
+}))
 
 const drawerWidth = 240;
 
@@ -39,6 +36,7 @@ const DrawerHeader = styled('div')(({ theme }) => ({
 
 
 const Dashboard = () => {
+    const { user, logOut } = useAuthContext();
     const theme = useTheme();
     const [open, setOpen] = useState(true);
     const [isMobile, setIsMobile] = useState(false);
@@ -155,6 +153,38 @@ const Dashboard = () => {
                     <DrawerHeader />
                     <Box sx={{ height: '100%' }}>
                         <Switch>
+                            <Route exact path={path}><Box sx={{
+                                display: 'flex', alignItems: 'center', flexDirection: 'column'
+                            }}>{
+                                    user.role === 'admin' ? <>
+                                        <LinkWrap to={`${url}/orders`}>
+                                            <Button>Manage All Orders</Button>
+                                        </LinkWrap>
+                                        <LinkWrap to={`${url}/make_admin`}>
+                                            <Button>Add new admin</Button>
+                                        </LinkWrap>
+                                        <LinkWrap to={`${url}/add_car`}>
+                                            <Button>Add new car in shop</Button>
+                                        </LinkWrap>
+                                        <LinkWrap to={`${url}/manage_cars`}>
+                                            <Button>Manage all added cars</Button>
+                                        </LinkWrap>
+                                    </> : <>
+                                        <LinkWrap to={`${url}/orders`}>
+                                            <Button>Manage My Orders</Button>
+                                        </LinkWrap>
+                                        <LinkWrap to={`${url}/review`}>
+                                            <Button>Write A Review</Button>
+                                        </LinkWrap>
+                                        <LinkWrap to="/profile">
+                                            <Button>View My Profile</Button>
+                                        </LinkWrap>
+                                    </>
+                                }
+                                <Button sx={{ px: 6, fontSize: '20px', my: 1.5 }}
+                                    onClick={logOut}>Sign Out</Button>
+                            </Box></Route>
+
                             <Route path={`${path}/pay`}><DashboardPay /></Route>
                             <Route path={`${path}/orders`}>
                                 <DashboardOrders setProcessStatus={setProcessStatus} handleSnackBar={handleSnackBar} />
