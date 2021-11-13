@@ -56,7 +56,7 @@ const ReviewSection = () => {
     return (reviews &&
         <Box sx={{ display: 'flex', justifyContent: 'center', background: '#00000077', py: 10 }}>
             <Box sx={{
-                maxWidth: 700, flexGrow: 1, color: 'white',
+                width: '100%', maxWidth: 700, flexGrow: 1, color: 'white',
                 '& > div > div': { alignItems: 'center', }
             }}>
                 <AutoPlaySwipeableViews

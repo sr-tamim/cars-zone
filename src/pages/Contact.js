@@ -22,7 +22,7 @@ const Contact = () => {
         const { email } = user;
         const date = Date.now();
         const newMessage = { ...values, email, date };
-        axios.post('http://localhost:5000/contact', newMessage)
+        axios.post('https://cars-zone.herokuapp.com/contact', newMessage)
             .then(({ data }) => {
                 if (data.insertedId) {
                     setSubmissionStatus({ success: 'Message sent successfully' })

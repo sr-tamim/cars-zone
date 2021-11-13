@@ -24,7 +24,7 @@ const AllMessages = () => {
 
     useEffect(loadData, [])
     function loadData() {
-        axios.get(`http://localhost:5000/contact`)
+        axios.get(`https://cars-zone.herokuapp.com/contact`)
             .then(({ data }) => setMessages(data))
             .catch(err => console.log(err))
     }
@@ -32,7 +32,9 @@ const AllMessages = () => {
 
     return (!messages ? <LoadingSpinner /> :
         <Box sx={{ height: '100%' }}>
-            <Typography variant="h4" align="center" color="primary" fontWeight="bold">Manage All Cars</Typography>
+            <Typography variant="h4" align="center" color="primary" fontWeight="bold">Messages
+                <Typography>Showing all messages sent via contact form</Typography>
+            </Typography>
             <Box sx={{ my: 4, position: 'relative', height: '80%' }}>
                 <TableContainer sx={{ height: '100%', position: 'absolute', top: 0, left: 0 }}>
                     <Table stickyHeader aria-label="Dashboard my orders table">

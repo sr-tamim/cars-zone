@@ -86,7 +86,7 @@ const DashboardOrders = ({ setProcessStatus, handleSnackBar }) => {
             <Typography variant="h4" color="primary"
                 align="center" fontWeight='bold'>
                 {user?.role === 'admin' ? 'All Orders' : 'My Orders'}
-                {user?.role === 'admin' && <Typography>{user.email}</Typography>}
+                {user?.role !== 'admin' && <Typography>{user.email}</Typography>}
             </Typography>
             <Box sx={{ my: 4, position: 'relative', height: '80%' }}>
                 <TableContainer sx={{ height: '100%', position: 'absolute', top: 0, left: 0 }}>

@@ -21,6 +21,18 @@ export const theme = createTheme({
   },
   typography: {
     fontFamily: ['Arvo', 'BlinkMacSystemFont', '"Segoe UI"', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', '"Fira Sans"', '"Droid Sans"', '"Helvetica Neue"', 'sans-serif'].join(','),
+    h1: {
+      fontSize: '2rem',
+      '@media (min-width:600px)': {
+        fontSize: '3rem',
+      },
+      '@media (min-width:900px)': {
+        fontSize: '4.5rem',
+      },
+      '@media (min-width:1400px)': {
+        fontSize: '5.5rem',
+      }
+    },
     h4: {
       fontSize: '1.3rem',
       '@media (min-width:600px)': {
