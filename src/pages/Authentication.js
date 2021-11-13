@@ -3,9 +3,8 @@ import React from 'react';
 import GoogleIcon from '@mui/icons-material/Google';
 import { Container, Typography } from '@mui/material';
 import useAuthContext from '../others/useAuthContext';
-import { BrowserRouter, Switch, Route, useRouteMatch, useHistory, useLocation } from 'react-router-dom';
+import { useHistory, useLocation } from 'react-router-dom';
 import Login from '../components/Auth/Login/Login';
-import SignUp from '../components/Auth/SignUp/SignUp';
 import { PageHeading } from '../App';
 
 const SignInButton = styled(Box)(({ theme }) => ({
@@ -16,9 +15,8 @@ const SignInButton = styled(Box)(({ theme }) => ({
     '&:hover': { background: theme.palette.primary.main, color: 'white' },
 }))
 
-const Authentication = () => {
+const Authentication = ({ children }) => {
     const { user, googleLogin } = useAuthContext();
-    let { path } = useRouteMatch();
 
     const location = useLocation();
     const backToPrevious = location.state?.from?.pathname || '/profile';
@@ -30,13 +28,7 @@ const Authentication = () => {
         <Box>
             <Container>
                 <PageHeading sx={{ color: 'primary.main' }}>Authentication</PageHeading>
-                <BrowserRouter>
-                    <Switch>
-                        <Route exact path={path}><Login /></Route>
-                        <Route path={`${path}/login`}><Login /></Route>
-                        <Route path={`${path}/signup`}><SignUp /></Route>
-                    </Switch>
-                </BrowserRouter>
+                {children || <Login />}
                 <SignInButton onClick={googleLogin}>
                     <GoogleIcon sx={{ mr: 1 }} />
                     <Typography sx={{ flexGrow: 1 }}>Sign in with Google</Typography>

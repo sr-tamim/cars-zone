@@ -14,7 +14,10 @@ import Page404 from "./pages/404";
 import Dashboard from "./pages/Dashboard";
 import Footer from "./components/Common/Footer/Footer";
 import Contact from "./pages/Contact";
+import Login from "./components/Auth/Login/Login";
+import SignUp from "./components/Auth/SignUp/SignUp";
 
+// customize mui theme
 export const theme = createTheme({
   palette: {
     primary: { main: "#f10000", dark: "#d20000", light: "#ff1a1a" }
@@ -45,6 +48,7 @@ export const theme = createTheme({
   }
 })
 
+// custom styled component
 export const PageHeading = styled('div')(({ theme }) => ({
   fontSize: '25px',
   textAlign: 'center',
@@ -57,23 +61,31 @@ export const PageHeading = styled('div')(({ theme }) => ({
 
 function App() {
   return (
+    // customized theme provider
     <ThemeProvider theme={theme}>
-      <AuthContextProvider>
+      <AuthContextProvider> {/* authentication context provider */}
         <Router>
           <Box className="App" sx={{ position: 'relative' }}>
-            <Navbar />
+            <Navbar />   {/* navigation bar */}
             <Box sx={{ position: 'relative' }}>
               <Switch>
+                {/* routes */}
                 <Route path="/home"><Home /></Route>
-                <Route exact path="/cars"><Cars /></Route>
-                <Route path="/auth"><Authentication /></Route>
                 <Route exact path="/"><Home /></Route>
+                <Route exact path="/cars"><Cars /></Route>
 
+                {/* authentication routes */}
+                <Route exact path="/auth"><Authentication /></Route>
+                <Route path="/auth/signup"><Authentication><SignUp /></Authentication></Route>
+                <Route path="/auth/login"><Authentication><Login /></Authentication></Route>
+
+                {/* private routes */}
                 <PrivateRoute path="/profile"><UserProfile /></PrivateRoute>
                 <PrivateRoute path="/cars/details/:carID"><CarDetails /></PrivateRoute>
                 <PrivateRoute path="/dashboard"><Dashboard /></PrivateRoute>
                 <PrivateRoute path="/contact"><Contact /></PrivateRoute>
 
+                {/* not found page */}
                 <Route path="*"><Page404 /></Route>
               </Switch>
             </Box>

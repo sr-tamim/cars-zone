@@ -33,7 +33,7 @@ const Footer = () => {
                 <Divider sx={{ my: 3 }} />
 
                 <Grid container rowSpacing={4} columnSpacing={2}>
-                    <Grid item xs={12} sm={4} md={3} xl={2} sx={{
+                    <Grid item xs={6} sm={4} md={3} xl={2} sx={{
                         display: 'flex', flexDirection: 'column',
                         '& > a': { color: '#000000bb' }
                     }}>
@@ -42,14 +42,14 @@ const Footer = () => {
                         <Link href="#">View all inventory</Link>
                         <Link href="#">Explore all cars</Link>
                     </Grid>
-                    <Grid item xs={12} sm={4} md={3} xl={2} sx={{
+                    <Grid item xs={6} sm={4} md={3} xl={2} sx={{
                         display: 'flex', flexDirection: 'column',
                         '& > a': { color: '#000000bb' }
                     }}>
                         <Typography variant='h6'>Sell/Trade</Typography>
                         <Link href="#">Get a online offer</Link>
                     </Grid>
-                    <Grid item xs={12} sm={4} md={3} xl={2} sx={{
+                    <Grid item xs={6} sm={4} md={3} xl={2} sx={{
                         display: 'flex', flexDirection: 'column',
                         '& > a': { color: '#000000bb' }
                     }}>
@@ -57,7 +57,7 @@ const Footer = () => {
                         <Link href="#">How it works</Link>
                         <Link href="#">Auto finance</Link>
                     </Grid>
-                    <Grid item xs={12} sm={4} md={3} xl={2} sx={{
+                    <Grid item xs={6} sm={4} md={3} xl={2} sx={{
                         display: 'flex', flexDirection: 'column',
                         '& > a': { color: '#000000bb' }
                     }}>
