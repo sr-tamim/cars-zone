@@ -3,7 +3,7 @@ import { Box } from '@mui/system';
 import React from 'react';
 import { NavLink } from 'react-router-dom';
 
-
+// not found page
 const Page404 = () => {
     return (
         <Box sx={{

@@ -7,6 +7,7 @@ import { useHistory, useLocation } from 'react-router-dom';
 import Login from '../components/Auth/Login/Login';
 import { PageHeading } from '../App';
 
+// sign in button styles custom styled mui component
 const SignInButton = styled(Box)(({ theme }) => ({
     width: '100%', maxWidth: '400px', textAlign: 'center',
     display: 'flex', alignItems: 'center',
@@ -16,8 +17,9 @@ const SignInButton = styled(Box)(({ theme }) => ({
 }))
 
 const Authentication = ({ children }) => {
-    const { user, googleLogin } = useAuthContext();
+    const { user, googleLogin } = useAuthContext(); // get user info
 
+    // get location status for sending back to previous page
     const location = useLocation();
     const backToPrevious = location.state?.from?.pathname || '/profile';
     const history = useHistory();

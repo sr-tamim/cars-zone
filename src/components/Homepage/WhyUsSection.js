@@ -2,6 +2,7 @@ import React from 'react';
 import { Box } from '@mui/system';
 import { Container, Grid, Typography } from '@mui/material';
 
+// our specialties section
 const WhyUsSection = () => {
     return (
         <Box>
