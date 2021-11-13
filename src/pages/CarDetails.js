@@ -21,10 +21,12 @@ const DetailsContainer = styled(Grid)(({ theme }) => ({
 
 
 const CarDetails = () => {
-    const { user } = useAuthContext();
-    const { carID } = useParams();
+    const { user } = useAuthContext(); // get user info
+    const { carID } = useParams(); // get car id from url parameter
+
     const [carDetails, setCarDetails] = useState(null);
-    const { carImg, carName, carType, transmission, fuel, color, mileage, price, engine } = carDetails ? carDetails : {};
+    // destructure car details
+    const { carImg, carName, carType, transmission, fuel, color, mileage, price, engine, description } = carDetails ? carDetails : {};
 
     useEffect(() => {
         axios.get(`https://cars-zone.herokuapp.com/cars/details/${carID}`)
@@ -32,10 +34,11 @@ const CarDetails = () => {
             .catch(err => console.log(err))
     }, [carID])
 
+    // create table rows
     function createData(name, value) {
         return { name, value };
     }
-
+    // table rows
     const rows = [
         createData('body color', color),
         createData('Car Type', carType),
@@ -81,7 +84,7 @@ const CarDetails = () => {
                 data.insertedId && setValues({ ...values, name: user.displayName, phone: '', address: '' })
                 data.insertedId && form.reset();
             })
-            .catch(err => console.log(err))
+            .catch(err => setSubmissionStatus({ success: err.message }))
     }
 
     return (!carDetails ? <LoadingSpinner /> :
@@ -103,6 +106,7 @@ const CarDetails = () => {
                             sx={{
                                 fontWeight: 'bold', my: 2
                             }}>{carName}</Typography>
+                        <p style={{ padding: '0 10px', color: '#000000cc' }}>{description}</p>
                     </Box>
                 </Grid>
                 <Grid item xs={12} md={4}>
