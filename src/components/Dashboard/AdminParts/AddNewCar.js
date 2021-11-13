@@ -3,6 +3,7 @@ import { Box, styled } from '@mui/system';
 import axios from 'axios';
 import React from 'react';
 
+// styled component for font awesome icon
 const Icon = styled('i')(({ theme }) => ({
     color: '#00000099',
     fontSize: '22px', margin: '5px 10px 5px 0'
@@ -10,13 +11,14 @@ const Icon = styled('i')(({ theme }) => ({
 
 
 const AddNewCar = ({ setProcessStatus, handleSnackBar }) => {
-    const [values, setValues] = React.useState({})
-    const [carType, setCarType] = React.useState('')
-    const [fuel, setFuel] = React.useState('')
+    const [values, setValues] = React.useState({}) // form values state
+    const [carType, setCarType] = React.useState('') // form car type state
+    const [fuel, setFuel] = React.useState('') // form fuel type state
+    // handle changing value in form
     const handleValueChange = (prop) => (event) => {
         setValues({ ...values, [prop]: event.target.value });
     }
-
+    // add new car in database
     const handleSubmit = (event) => {
         const newCarInfo = { ...values, carType, fuel }
         axios.post('https://cars-zone.herokuapp.com/cars', newCarInfo)
@@ -29,16 +31,22 @@ const AddNewCar = ({ setProcessStatus, handleSnackBar }) => {
                     event.target.reset()
                 }
             })
-            .catch(err => console.log(err))
+            .catch(err => {
+                setProcessStatus({ error: err.message })
+                handleSnackBar() // show notification popup containing status
+            })
         event.preventDefault()
     }
     return (
         <Box>
             <Typography variant="h4" align="center" color="primary" fontWeight="bold">Add New Car In Shop</Typography>
             <Box maxWidth="sm" sx={{ my: 4, mx: 'auto' }}>
+
+                {/* new car information form */}
                 <form onSubmit={handleSubmit}>
                     <Grid container rowSpacing={3.5} columnSpacing={{ xs: 1, sm: 2, md: 3 }}>
                         <Grid item xs={12}>
+                            {/* car name */}
                             <Box sx={{ display: 'flex', alignItems: 'flex-end' }}>
                                 <Icon className="fas fa-file-signature"></Icon>
                                 <TextField fullWidth label="Car Name"
@@ -47,6 +55,7 @@ const AddNewCar = ({ setProcessStatus, handleSnackBar }) => {
                             </Box>
                         </Grid>
                         <Grid item xs={6} md={4}>
+                            {/* car body color */}
                             <Box sx={{ display: 'flex', alignItems: 'flex-end' }}>
                                 <Icon className="fas fa-palette"></Icon>
                                 <TextField fullWidth label="Body Color"
@@ -55,6 +64,7 @@ const AddNewCar = ({ setProcessStatus, handleSnackBar }) => {
                             </Box>
                         </Grid>
                         <Grid item xs={6} md={4}>
+                            {/* car type selector */}
                             <Box sx={{ display: 'flex', alignItems: 'flex-end' }}>
                                 <Icon className="fas fa-car"></Icon>
                                 <FormControl variant="standard" fullWidth>
@@ -73,6 +83,7 @@ const AddNewCar = ({ setProcessStatus, handleSnackBar }) => {
                             </Box>
                         </Grid>
                         <Grid item xs={12} md={4}>
+                            {/* car mileage input */}
                             <Box sx={{ display: 'flex', alignItems: 'flex-end' }}>
                                 <Icon className="fas fa-road"></Icon>
                                 <TextField fullWidth required label="Mileage"
@@ -85,6 +96,7 @@ const AddNewCar = ({ setProcessStatus, handleSnackBar }) => {
                             </Box>
                         </Grid>
                         <Grid item xs={12} md={6}>
+                            {/* car transmission status */}
                             <Box sx={{ display: 'flex', alignItems: 'flex-end' }}>
                                 <Icon className="fas fa-tachometer-alt"></Icon>
                                 <TextField fullWidth label="Transmission"
@@ -93,6 +105,7 @@ const AddNewCar = ({ setProcessStatus, handleSnackBar }) => {
                             </Box>
                         </Grid>
                         <Grid item xs={12} md={6}>
+                            {/* car engine info */}
                             <Box sx={{ display: 'flex', alignItems: 'flex-end' }}>
                                 <Icon className="fas fa-cogs"></Icon>
                                 <TextField fullWidth label="Engine"
@@ -101,6 +114,7 @@ const AddNewCar = ({ setProcessStatus, handleSnackBar }) => {
                             </Box>
                         </Grid>
                         <Grid item xs={5} md={4}>
+                            {/* car fuel type input */}
                             <Box sx={{ display: 'flex', alignItems: 'flex-end' }}>
                                 <Icon className="fas fa-gas-pump"></Icon>
                                 <FormControl variant="standard" fullWidth>
@@ -119,6 +133,7 @@ const AddNewCar = ({ setProcessStatus, handleSnackBar }) => {
                             </Box>
                         </Grid>
                         <Grid item xs={7} md={8}>
+                            {/* car price in us dollar */}
                             <Box sx={{ display: 'flex', alignItems: 'flex-end' }}>
                                 <Icon className="fas fa-dollar-sign"></Icon>
                                 <TextField fullWidth label="Price"
@@ -127,6 +142,7 @@ const AddNewCar = ({ setProcessStatus, handleSnackBar }) => {
                             </Box>
                         </Grid>
                         <Grid item xs={12}>
+                            {/* car image url */}
                             <Box sx={{ display: 'flex', alignItems: 'flex-end' }}>
                                 <Icon className="fas fa-image"></Icon>
                                 <TextField fullWidth label="Img URL"
@@ -135,6 +151,7 @@ const AddNewCar = ({ setProcessStatus, handleSnackBar }) => {
                             </Box>
                         </Grid>
                         <Grid item xs={12}>
+                            {/* car description textarea */}
                             <TextField fullWidth multiline
                                 rows={4} sx={{ my: 2 }}
                                 label="Description" variant="outlined"

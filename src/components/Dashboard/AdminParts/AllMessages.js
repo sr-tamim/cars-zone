@@ -10,7 +10,7 @@ import TableRow from '@mui/material/TableRow';
 import axios from 'axios';
 import LoadingSpinner from '../../Common/LoadingSpinner/LoadingSpinner';
 
-
+// table columns
 const columns = [
     { label: 'Name', minWidth: 100 },
     { label: 'Email', minWidth: 150 },
@@ -20,8 +20,9 @@ const columns = [
 
 
 const AllMessages = () => {
-    const [messages, setMessages] = useState(null);
+    const [messages, setMessages] = useState(null); // all messages state
 
+    // load data from server
     useEffect(loadData, [])
     function loadData() {
         axios.get(`https://cars-zone.herokuapp.com/contact`)
@@ -36,8 +37,11 @@ const AllMessages = () => {
                 <Typography>Showing all messages sent via contact form</Typography>
             </Typography>
             <Box sx={{ my: 4, position: 'relative', height: '80%' }}>
+
+                {/* all messages containing table */}
                 <TableContainer sx={{ height: '100%', position: 'absolute', top: 0, left: 0 }}>
                     <Table stickyHeader aria-label="Dashboard my orders table">
+                        {/* table head */}
                         <TableHead>
                             <TableRow>
                                 <TableCell>Sl no.</TableCell>
@@ -45,13 +49,14 @@ const AllMessages = () => {
                                     <TableCell
                                         key={column.label}
                                         align={column.align}
-                                        style={{ minWidth: column.minWidth }}
-                                    >
+                                        style={{ minWidth: column.minWidth }}>
                                         {column.label}
                                     </TableCell>
                                 ))}
                             </TableRow>
                         </TableHead>
+
+                        {/* table body */}
                         <TableBody>
                             {messages.map((info, index) => {
                                 const { name, email, message, date } = info
@@ -64,8 +69,7 @@ const AllMessages = () => {
                                                 backgroundColor: '#00000012',
                                             },
                                         }}
-                                        tabIndex={-1} key={info._id}
-                                    >
+                                        tabIndex={-1} key={info._id}>
                                         <TableCell>{index + 1}</TableCell>
                                         <TableCell>{name}</TableCell>
                                         <TableCell sx={{ textTransform: 'none' }}>{email}</TableCell>

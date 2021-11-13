@@ -6,13 +6,13 @@ import React from 'react';
 
 
 const MakeAdmin = ({ setProcessStatus, handleSnackBar }) => {
-    const [emailInput, setEmailInput] = React.useState('');
+    const [emailInput, setEmailInput] = React.useState(''); // form email input state
 
 
-    // add new admin
+    // add new admin to database
     function addNewAdmin(event) {
-        event.preventDefault();
         setProcessStatus(null);
+        // email validation
         !(/^[^\s@]+@[^\s@]+\.[^\s@]+$/).test(emailInput) ?
             setProcessStatus({ error: 'Invalid Email' })
             : axios.post(`https://cars-zone.herokuapp.com/admin/add`, { email: emailInput })
@@ -24,7 +24,8 @@ const MakeAdmin = ({ setProcessStatus, handleSnackBar }) => {
                     data.error ? setProcessStatus(data) : event.target.reset();
                 })
                 .catch(err => console.log(err.message));
-        handleSnackBar();
+        handleSnackBar(); // show notification containing status
+        event.preventDefault();
     }
 
 

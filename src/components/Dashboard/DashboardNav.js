@@ -11,17 +11,19 @@ import { styled } from '@mui/system';
 import { NavLink } from 'react-router-dom';
 import useAuthContext from '../../others/useAuthContext';
 
+// custom styled component for showing font awesome icons
 const Icon = styled('i')(({ theme }) => ({
     color: 'inherit', fontSize: '20px'
 }));
 
+// custom styled component for NavLink
 const LinkWrap = styled(NavLink)(() => ({
     color: 'inherit',
     textDecoration: 'none', '&.active>div': { background: '#ff00000f' }
 }))
 
 const DashboardNav = ({ url }) => {
-    const { user, logOut } = useAuthContext();
+    const { user, logOut } = useAuthContext(); // get user info and log out function
     return (
         <List>
             <LinkWrap exact to={`${url}`} activeClassName='active'>
@@ -30,6 +32,8 @@ const DashboardNav = ({ url }) => {
                     <ListItemText>Dashboard</ListItemText>
                 </ListItem>
             </LinkWrap>
+
+            {/* show payment navigation only for public users */}
             {user?.role !== 'admin' &&
                 <LinkWrap to={`${url}/pay`} activeClassName='active'>
                     <ListItem button>
@@ -47,6 +51,8 @@ const DashboardNav = ({ url }) => {
                     <ListItemText>{user?.role === 'admin' ? 'All Orders' : 'My Orders'}</ListItemText>
                 </ListItem>
             </LinkWrap>
+
+            {/* show review navigation only for public users */}
             {user?.role !== 'admin' &&
                 <LinkWrap to={`${url}/review/add`} activeClassName='active'>
                     <ListItem button>
@@ -55,6 +61,8 @@ const DashboardNav = ({ url }) => {
                     </ListItem>
                 </LinkWrap>
             }
+
+            {/* only for admin navigations */}
             {user?.role === 'admin' && <>
                 <LinkWrap to={`${url}/make_admin`} activeClassName='active'>
                     <ListItem button>
@@ -88,6 +96,8 @@ const DashboardNav = ({ url }) => {
                 </LinkWrap>
             </>
             }
+
+            {/* log out button */}
             <ListItem button onClick={logOut}>
                 <ListItemIcon>
                     <Icon style={{ margin: '0 4px' }} className="fas fa-sign-out-alt" />
