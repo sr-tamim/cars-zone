@@ -33,17 +33,6 @@ const DashboardNav = ({ url }) => {
                 </ListItem>
             </LinkWrap>
 
-            {/* show payment navigation only for public users */}
-            {user?.role !== 'admin' &&
-                <LinkWrap to={`${url}/pay`} activeClassName='active'>
-                    <ListItem button>
-                        <ListItemIcon>
-                            <Icon className="fas fa-money-check-alt" />
-                        </ListItemIcon>
-                        <ListItemText>Pay</ListItemText>
-                    </ListItem>
-                </LinkWrap>
-            }
             <LinkWrap to={`${url}/orders`} activeClassName='active'>
                 <ListItem button>
                     <ListItemIcon><ShoppingCartIcon /></ListItemIcon>

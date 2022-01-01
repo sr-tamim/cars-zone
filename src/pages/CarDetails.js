@@ -1,4 +1,4 @@
-import { Button, FormControl, FormHelperText, Grid, Input, InputLabel, Typography } from '@mui/material';
+import { Button, Grid, Typography } from '@mui/material';
 import { Box, styled } from '@mui/system';
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
@@ -9,7 +9,7 @@ import TableCell from '@mui/material/TableCell';
 import TableContainer from '@mui/material/TableContainer';
 import TableRow from '@mui/material/TableRow';
 import LoadingSpinner from '../components/Common/LoadingSpinner/LoadingSpinner';
-import useAuthContext from '../others/useAuthContext';
+import { useHistory } from 'react-router-dom';
 
 
 const DetailsContainer = styled(Grid)(({ theme }) => ({
@@ -21,7 +21,6 @@ const DetailsContainer = styled(Grid)(({ theme }) => ({
 
 
 const CarDetails = () => {
-    const { user } = useAuthContext(); // get user info
     const { carID } = useParams(); // get car id from url parameter
 
     const [carDetails, setCarDetails] = useState(null);
@@ -49,43 +48,7 @@ const CarDetails = () => {
     ];
 
 
-    // form values
-    const [values, setValues] = useState({
-        name: user.displayName, email: user.email, phone: '', address: ''
-    });
-    const handleChange = (prop) => (event) => {
-        setValues({ ...values, [prop]: event.target.value });
-    };
-
-    // order submission status
-    const [submissionStatus, setSubmissionStatus] = useState(null);
-    const handleSubmit = (event) => {
-        event.preventDefault();
-        const { name, phone, address } = values;
-        let status = null;
-        name === '' ?
-            status = { error: 'name is required' } :
-            phone === '' ?
-                status = { error: 'phone number is required' } :
-                !(/^[+]*[(]{0,1}[0-9]{1,4}[)]{0,1}[-\s./0-9]*$/g).test(phone) ? status = { error: 'invalid phone number' } :
-                    address === '' ?
-                        status = { error: 'address is required' } :
-                        saveOrderToDB(values, event.target);
-        setSubmissionStatus(status)
-    }
-
-    // send order info to database
-    const saveOrderToDB = (info, form) => {
-        const date = Date.now();
-        const orderInfo = { ...info, carID, carName, price, date, status: 'pending' }
-        axios.post('https://cars-zone.herokuapp.com/order/save', orderInfo)
-            .then(({ data }) => {
-                data.insertedId && setSubmissionStatus({ success: 'order placed successfully' })
-                data.insertedId && setValues({ ...values, name: user.displayName, phone: '', address: '' })
-                data.insertedId && form.reset();
-            })
-            .catch(err => setSubmissionStatus({ success: err.message }))
-    }
+    const history = useHistory();
 
     return (!carDetails ? <LoadingSpinner /> :
         <Box sx={{ maxWidth: 'xl', mx: 'auto', py: 4, px: 1 }}>
@@ -132,59 +95,12 @@ const CarDetails = () => {
                             </TableBody>
                         </Table>
                     </TableContainer>
-                    <Box sx={{ my: 8 }}>
-                        <Typography variant="h4"
-                            sx={{
-                                fontWeight: 'medium', my: 2
-                            }}>Place Order</Typography>
-
-                        <form style={{ padding: '0 10px' }}
-                            onSubmit={handleSubmit}>
-                            <FormControl sx={{ my: 1 }} color="primary" variant="standard" fullWidth >
-                                <InputLabel htmlFor="full-name">Name</InputLabel>
-                                <Input
-                                    id="full-name"
-                                    type='text'
-                                    defaultValue={values.name}
-                                    onChange={handleChange('name')}
-                                />
-                            </FormControl>
-                            <FormControl sx={{ my: 1 }} color="primary" variant="standard" fullWidth >
-                                <InputLabel htmlFor="email">Email</InputLabel>
-                                <Input
-                                    id="email"
-                                    type='email'
-                                    defaultValue={user.email}
-                                    readOnly />
-                            </FormControl>
-                            <FormControl sx={{ my: 1 }} color="primary" variant="standard" fullWidth >
-                                <InputLabel htmlFor="phone">Phone</InputLabel>
-                                <Input
-                                    id="phone"
-                                    type='text'
-                                    defaultValue={values.phone}
-                                    onChange={handleChange('phone')} />
-                            </FormControl>
-                            <FormControl sx={{ my: 1 }} color="primary" variant="standard" fullWidth >
-                                <InputLabel htmlFor="address">Address</InputLabel>
-                                <Input
-                                    id="address"
-                                    type='text'
-                                    defaultValue={values.address}
-                                    onChange={handleChange('address')} />
-                            </FormControl>
-
-                            <Box sx={{ textTransform: 'capitalize' }}>
-                                <FormHelperText sx={{ color: 'red' }}>{submissionStatus?.error}</FormHelperText>
-                                <FormHelperText sx={{ color: 'green' }}>{submissionStatus?.success}</FormHelperText>
-                            </Box>
-
-                            <Button variant="outlined" size="large" color="primary" type="submit"
-                                sx={{ width: '100%', margin: '30px 0' }}>
-                                Confirm
-                            </Button>
-                        </form>
+                    <Box sx={{ px: 2, my: 5 }}>
+                        <Button variant='outlined' fullWidth
+                            onClick={() => history.push(`/dashboard/pay/${carID}`)}
+                        >Buy this car</Button>
                     </Box>
+
                 </Grid>
             </DetailsContainer>
         </Box>

@@ -202,7 +202,7 @@ const Dashboard = () => {
                             </Route>
 
                             {/* different routes */}
-                            <Route path={`${path}/pay`}><DashboardPay /></Route>
+                            <Route path={`${path}/pay/:carID`}><DashboardPay /></Route>
                             <Route path={`${path}/orders`}>
                                 <DashboardOrders setProcessStatus={setProcessStatus} handleSnackBar={handleSnackBar} />
                             </Route>
