@@ -85,7 +85,7 @@ const Footer = () => {
                             Copyright © 2021 <br />
                             All rights reserved <br />
                             Programmed, developed & managed by <br />
-                            <Link href="https://linkedin.com/in/srtamim" color="primary" fontWeight="bold" target="_blank">SR TAMIM</Link>
+                            <Link href="https://sr-tamim.vercel.app" color="primary" fontWeight="bold" target="_blank">SR TAMIM</Link>
                         </Typography>
                     </Grid>
                 </Grid>
