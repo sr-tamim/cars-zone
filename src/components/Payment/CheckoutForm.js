@@ -7,7 +7,7 @@ import LoadingSpinner from '../Common/LoadingSpinner/LoadingSpinner';
 import { useHistory } from 'react-router-dom';
 import useAuthContext from '../../others/useAuthContext';
 
-const CheckoutForm = ({ carDetails }) => {
+const CheckoutForm = ({ carDetails, snackBar }) => {
     const { user } = useAuthContext()
 
     const [clientSecret, setClientSecret] = React.useState(null)
@@ -78,7 +78,7 @@ const CheckoutForm = ({ carDetails }) => {
             console.log(confirmPayment)
             if (confirmPayment.error) { setPaymentStatus(confirmPayment.error.message) }
             else if (confirmPayment?.paymentIntent?.status === 'succeeded') {
-
+                setPaymentStatus(confirmPayment.paymentIntent.status)
                 // send order info to database
                 const date = Date.now();
                 const orderInfo = {
@@ -86,12 +86,19 @@ const CheckoutForm = ({ carDetails }) => {
                     email: user.email, status: 'pending',
                     paymentDetails: confirmPayment?.paymentIntent
                 }
+                const { setProcessStatus, handleSnackBar } = snackBar;
                 axios.post('https://cars-zone.herokuapp.com/order/save', orderInfo)
                     .then(({ data }) => {
-                        data.insertedId && setPaymentStatus('order placed successfully')
-                        data.insertedId && setTimeout(() => history.push('/dashboard/review/add'), 2000)
+                        if (data.insertedId) {
+                            setProcessStatus({ success: 'Order Placed Successfully' });
+                            handleSnackBar() // show notification popup containing status
+                            history.push('/dashboard/review/add')
+                        }
                     })
-                    .catch(err => setPaymentStatus(err?.message))
+                    .catch(err => {
+                        setProcessStatus({ error: err?.message })
+                        handleSnackBar() // show notification popup containing status
+                    })
             }
             else { setPaymentStatus(confirmPayment.paymentIntent.status) }
         }

@@ -206,7 +206,9 @@ const Dashboard = () => {
                             </Route>
 
                             {/* different routes */}
-                            <Route path={`${path}/pay/:carID`}><DashboardPay /></Route>
+                            <Route path={`${path}/pay/:carID`}>
+                                <DashboardPay setProcessStatus={setProcessStatus} handleSnackBar={handleSnackBar} />
+                            </Route>
                             <Route path={`${path}/orders`}>
                                 <DashboardOrders setProcessStatus={setProcessStatus} handleSnackBar={handleSnackBar} />
                             </Route>
@@ -241,7 +243,7 @@ const Dashboard = () => {
 
             {/* notification snack bar for error status */}
             {processStatus?.error &&
-                <Snackbar open={snackBar} autoHideDuration={4000} onClose={handleSnackBarClose}>
+                <Snackbar open={snackBar} autoHideDuration={5000} onClose={handleSnackBarClose}>
                     <Alert onClose={handleSnackBarClose} severity="error" sx={{ width: '100%' }}>
                         {processStatus?.error}
                     </Alert>

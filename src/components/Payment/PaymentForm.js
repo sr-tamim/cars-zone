@@ -6,7 +6,7 @@ import CheckoutForm from './CheckoutForm';
 
 const stripePromise = loadStripe(process.env.REACT_APP_STRIPE_PUBLIC_KEY);
 
-const PaymentForm = ({ carDetails }) => {
+const PaymentForm = ({ carDetails, snackBar }) => {
 
     // destructure car details
     const { carName, color } = carDetails ? carDetails : {};
@@ -18,7 +18,7 @@ const PaymentForm = ({ carDetails }) => {
                 {carName} ({color})
             </Typography>
             <Elements stripe={stripePromise}>
-                <CheckoutForm carDetails={carDetails} />
+                <CheckoutForm carDetails={carDetails} snackBar={snackBar} />
             </Elements>
         </div>
     );

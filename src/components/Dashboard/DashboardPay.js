@@ -5,7 +5,7 @@ import { useParams } from 'react-router-dom';
 import PaymentForm from '../Payment/PaymentForm';
 
 // dashboad payment component
-const DashboardPay = () => {
+const DashboardPay = ({ setProcessStatus, handleSnackBar }) => {
     const { carID } = useParams(); // get car id from url parameter
 
     const [carDetails, setCarDetails] = React.useState(null);
@@ -18,7 +18,7 @@ const DashboardPay = () => {
 
     return (
         <Box sx={{ textAlign: 'center', py: 8 }}>
-            <PaymentForm carDetails={carDetails} />
+            <PaymentForm carDetails={carDetails} snackBar={{ setProcessStatus, handleSnackBar }} />
         </Box>
     );
 };
