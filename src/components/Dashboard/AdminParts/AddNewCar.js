@@ -2,6 +2,7 @@ import { Button, FormControl, Grid, InputAdornment, InputLabel, MenuItem, Select
 import { Box, styled } from '@mui/system';
 import axios from 'axios';
 import React from 'react';
+import useAuthContext from '../../../others/useAuthContext';
 
 // styled component for font awesome icon
 const Icon = styled('i')(({ theme }) => ({
@@ -11,6 +12,8 @@ const Icon = styled('i')(({ theme }) => ({
 
 
 const AddNewCar = ({ setProcessStatus, handleSnackBar }) => {
+    const { user } = useAuthContext(); // get user info from user context
+
     const [values, setValues] = React.useState({}) // form values state
     const [carType, setCarType] = React.useState('') // form car type state
     const [fuel, setFuel] = React.useState('') // form fuel type state
@@ -159,7 +162,8 @@ const AddNewCar = ({ setProcessStatus, handleSnackBar }) => {
                                 onChange={handleValueChange('description')} />
                         </Grid>
                         <Grid item xs={12} sx={{ textAlign: 'right' }}>
-                            <Button type="submit" variant="outlined">Add to Database</Button>
+                            <Button type="submit" variant="outlined"
+                                disabled={user?.email === 'demo@admin.srt'}>Add to Database</Button>
                         </Grid>
                     </Grid>
                 </form>

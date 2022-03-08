@@ -168,7 +168,8 @@ const DashboardOrders = ({ setProcessStatus, handleSnackBar }) => {
                                             </TableCell>
                                             <TableCell align="right">
                                                 <Button variant="outlined"
-                                                    onClick={() => handleDelete(row._id)}>Delete</Button>
+                                                    onClick={() => handleDelete(row._id)}
+                                                    disabled={user?.email === 'demo@admin.srt'}>Delete</Button>
                                             </TableCell>
                                         </TableRow>
                                     );

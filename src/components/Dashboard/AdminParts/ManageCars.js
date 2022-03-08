@@ -10,6 +10,7 @@ import TableRow from '@mui/material/TableRow';
 import axios from 'axios';
 import MyModal from '../../Common/Modal/Modal';
 import LoadingSpinner from '../../Common/LoadingSpinner/LoadingSpinner';
+import useAuthContext from '../../../others/useAuthContext';
 
 // table columns
 const columns = [
@@ -22,6 +23,7 @@ const columns = [
 
 
 const ManageCars = ({ setProcessStatus, handleSnackBar }) => {
+    const { user } = useAuthContext(); // get user info from user context
     const [modalOpen, setModalOpen] = useState(false); // delete modal state
     const [cars, setCars] = useState(null); // all cars info
 
@@ -114,7 +116,7 @@ const ManageCars = ({ setProcessStatus, handleSnackBar }) => {
                                         <TableCell align="right">
                                             {/* delete button */}
                                             <Button variant="outlined"
-                                                onClick={() => handleDelete(carID)}>Delete</Button>
+                                                onClick={() => handleDelete(carID)} disabled={user?.email === 'demo@admin.srt'}>Delete</Button>
                                         </TableCell>
                                     </TableRow>
                                 );

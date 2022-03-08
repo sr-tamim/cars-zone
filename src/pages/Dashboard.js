@@ -5,7 +5,7 @@ import MuiAppBar from '@mui/material/AppBar';
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
 import ChevronRightIcon from '@mui/icons-material/ChevronRight';
 import DashboardNav from '../components/Dashboard/DashboardNav';
-import { BrowserRouter, Switch, Route, useRouteMatch, NavLink } from 'react-router-dom';
+import { BrowserRouter, Switch, Route, useRouteMatch, NavLink, useHistory } from 'react-router-dom';
 import DashboardPay from '../components/Dashboard/DashboardPay';
 import DashboardOrders from '../components/Dashboard/DashboardOrders';
 import DashboardReview from '../components/Dashboard/DashboardReview';
@@ -24,7 +24,7 @@ const Icon = styled('i')(({ theme }) => ({
 // styled component for react router NavLink
 const LinkWrap = styled(NavLink)(() => ({
     color: 'inherit', textDecoration: 'none',
-    '& > button': { margin: '7px 0', padding: '10px 30px', fontSize: '20px' }
+    '& > button': { margin: '7px 0', padding: '10px 30px', fontSize: '20px', textTransform: 'none' }
 }))
 
 const drawerWidth = 240; // dashboard navigation drawer width
@@ -41,7 +41,7 @@ const DrawerHeader = styled('div')(({ theme }) => ({
 
 
 const Dashboard = () => {
-    const { user, logOut } = useAuthContext(); // get user info & log out function
+    const { user, loginEmail, logOut } = useAuthContext(); // get user info & log out function
 
     // material ui theme
     const theme = useTheme();
@@ -105,6 +105,7 @@ const Dashboard = () => {
 
     // nested routing
     const { path, url } = useRouteMatch();
+    const history = useHistory();
 
     // notification snack bar state
     const [snackBar, setSnackBar] = React.useState(false);
@@ -186,17 +187,20 @@ const Dashboard = () => {
                                             </LinkWrap>
                                         </> : <>
                                             <LinkWrap to={`${url}/orders`}>
-                                                <Button>Manage My Orders</Button>
+                                                <Button>Manage my orders</Button>
                                             </LinkWrap>
                                             <LinkWrap to={`${url}/review`}>
-                                                <Button>Write A Review</Button>
+                                                <Button>Write a review</Button>
                                             </LinkWrap>
-                                            <LinkWrap to="/profile">
-                                                <Button>View My Profile</Button>
-                                            </LinkWrap>
+                                            <Button onClick={() => history.push('/profile')}
+                                                sx={{ my: '7px', padding: '10px 30px', fontSize: '20px', textTransform: 'none' }}
+                                            >View my profile</Button>
+                                            <Button onClick={() => loginEmail('demo@admin.srt', '456789')}
+                                                sx={{ my: '7px', padding: '10px 30px', fontSize: '20px', textTransform: 'none' }}
+                                            >View admin functionalities</Button>
                                         </>
                                     }
-                                    <Button sx={{ px: 6, fontSize: '20px', my: 1.5 }}
+                                    <Button sx={{ px: 6, fontSize: '20px', my: 1.5, textTransform: 'none' }}
                                         onClick={logOut}>Sign Out</Button>
                                 </Box>
                             </Route>

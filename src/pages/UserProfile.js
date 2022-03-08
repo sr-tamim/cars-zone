@@ -11,6 +11,7 @@ const UserProfile = () => {
         fontWeight: 'bold',
         fontSize: '28px',
         margin: 0,
+        textTransform: 'capitalize',
         [theme.breakpoints.up('md')]: {
             fontSize: '45px'
         },

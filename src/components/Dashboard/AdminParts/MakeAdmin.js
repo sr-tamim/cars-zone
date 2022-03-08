@@ -3,9 +3,11 @@ import { Button, TextField, Typography } from '@mui/material';
 import { Box } from '@mui/system';
 import axios from 'axios';
 import React from 'react';
+import useAuthContext from '../../../others/useAuthContext';
 
 
 const MakeAdmin = ({ setProcessStatus, handleSnackBar }) => {
+    const { user } = useAuthContext(); // get user info from user context
     const [emailInput, setEmailInput] = React.useState(''); // form email input state
 
 
@@ -37,7 +39,8 @@ const MakeAdmin = ({ setProcessStatus, handleSnackBar }) => {
                     <AccountCircle sx={{ color: 'action.active', mr: 1, my: 0.5 }} />
                     <TextField id="input-with-sx" label="Email" variant="standard"
                         onChange={(e) => setEmailInput(e.target.value)} />
-                    <Button sx={{ py: 0.5 }} type="submit">Add</Button>
+                    <Button sx={{ py: 0.5 }} type="submit"
+                        disabled={user?.email === 'demo@admin.srt'}>Add</Button>
                 </Box>
             </form>
         </Box>
