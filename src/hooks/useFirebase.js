@@ -17,7 +17,6 @@ const useFirebase = () => {
     const [loadingUserOnReload, setLoadingUserOnRelaod] = useState(true);
     const [authError, setAuthError] = useState(null);
     const [authLoading, setAuthLoading] = useState(false);
-    console.log(user)
 
     // modify firebase error to show in UI
     const modifyError = (error) => {

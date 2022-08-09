@@ -64,7 +64,6 @@ const CheckoutForm = ({ carDetails, snackBar }) => {
 
         if (payLoad.error) { setPaymentStatus(payLoad.error.message) }
         else {
-            console.log(payLoad.paymentMethod)
             const confirmPayment = await stripe.confirmCardPayment(clientSecret, {
                 payment_method: {
                     card: card,
@@ -75,7 +74,6 @@ const CheckoutForm = ({ carDetails, snackBar }) => {
                     }
                 }
             })
-            console.log(confirmPayment)
             if (confirmPayment.error) { setPaymentStatus(confirmPayment.error.message) }
             else if (confirmPayment?.paymentIntent?.status === 'succeeded') {
                 setPaymentStatus(confirmPayment.paymentIntent.status)
