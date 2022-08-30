@@ -36,7 +36,7 @@ const useFirebase = () => {
     // save user info in database
     function saveUserToDB(userInfo) {
         const { email, displayName, photoURL } = userInfo;
-        axios.post('https://cars-zone.herokuapp.com/users', {
+        axios.post('https://cars-zone-server.netlify.app/.netlify/functions/server/users', {
             email, displayName, photoURL
         })
             .then(({ data }) => data.upsertedCount && console.log('user added to database'))
@@ -45,7 +45,7 @@ const useFirebase = () => {
     }
     // get user info from database
     function getUserFromDB(email) {
-        axios.get(`https://cars-zone.herokuapp.com/users/${email}`)
+        axios.get(`https://cars-zone-server.netlify.app/.netlify/functions/server/users/${email}`)
             .then(({ data }) => {
                 setUser(data);
                 loadingUserOnReload && setLoadingUserOnRelaod(false);

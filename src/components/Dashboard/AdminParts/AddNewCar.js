@@ -24,7 +24,7 @@ const AddNewCar = ({ setProcessStatus, handleSnackBar }) => {
     // add new car in database
     const handleSubmit = (event) => {
         const newCarInfo = { ...values, carType, fuel }
-        axios.post('https://cars-zone.herokuapp.com/cars', newCarInfo)
+        axios.post('https://cars-zone-server.netlify.app/.netlify/functions/server/cars', newCarInfo)
             .then(({ data }) => {
                 if (data.insertedId) {
                     setProcessStatus({

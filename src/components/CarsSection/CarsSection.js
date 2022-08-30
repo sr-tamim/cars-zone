@@ -9,7 +9,7 @@ const CarsSection = ({ dataAmount }) => {
     const [cars, setCars] = useState(null);
 
     useEffect(() => {
-        axios.get(`https://cars-zone.herokuapp.com/cars/${dataAmount ? dataAmount : 'all'}`)
+        axios.get(`https://cars-zone-server.netlify.app/.netlify/functions/server/cars/${dataAmount ? dataAmount : 'all'}`)
             .then(({ data }) => setCars(data))
             .catch(err => console.log(err));
     }, [dataAmount])

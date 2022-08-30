@@ -17,7 +17,7 @@ const MakeAdmin = ({ setProcessStatus, handleSnackBar }) => {
         // email validation
         !(/^[^\s@]+@[^\s@]+\.[^\s@]+$/).test(emailInput) ?
             setProcessStatus({ error: 'Invalid Email' })
-            : axios.post(`https://cars-zone.herokuapp.com/admin/add`, { email: emailInput })
+            : axios.post(`https://cars-zone-server.netlify.app/.netlify/functions/server/admin/add`, { email: emailInput })
                 .then(({ data }) => {
                     data.modifiedCount ? setProcessStatus({
                         success: 'Admin Added Successfully'

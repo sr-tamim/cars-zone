@@ -29,7 +29,7 @@ const DashboardReview = () => {
         const { email, displayName, photoURL } = user;
         const date = Date.now(); // get date information
         const review = { ...values, email, displayName, photoURL, date }; // compress info in object
-        axios.post('https://cars-zone.herokuapp.com/review', review)
+        axios.post('https://cars-zone-server.netlify.app/.netlify/functions/server/review', review)
             .then(({ data }) => {
                 if (data.insertedId) {
                     setSubmissionStatus({ success: 'Review added successfully' })

@@ -23,7 +23,7 @@ const CheckoutForm = ({ carDetails, snackBar }) => {
     const elements = useElements()
 
     React.useEffect(() => {
-        carDetails && axios.post('https://cars-zone.herokuapp.com/create-payment-intent', carDetails)
+        carDetails && axios.post('https://cars-zone-server.netlify.app/.netlify/functions/server/create-payment-intent', carDetails)
             .then(({ data }) => setClientSecret(data))
             .catch(err => console.log(err))
     }, [carDetails, price])
@@ -85,7 +85,7 @@ const CheckoutForm = ({ carDetails, snackBar }) => {
                     paymentDetails: confirmPayment?.paymentIntent
                 }
                 const { setProcessStatus, handleSnackBar } = snackBar;
-                axios.post('https://cars-zone.herokuapp.com/order/save', orderInfo)
+                axios.post('https://cars-zone-server.netlify.app/.netlify/functions/server/order/save', orderInfo)
                     .then(({ data }) => {
                         if (data.insertedId) {
                             setProcessStatus({ success: 'Order Placed Successfully' });

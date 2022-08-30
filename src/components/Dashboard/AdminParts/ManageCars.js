@@ -30,7 +30,7 @@ const ManageCars = ({ setProcessStatus, handleSnackBar }) => {
     // load all cars info
     useEffect(loadData, [])
     function loadData() {
-        axios.get(`https://cars-zone.herokuapp.com/cars/all`)
+        axios.get(`https://cars-zone-server.netlify.app/.netlify/functions/server/cars/all`)
             .then(({ data }) => setCars(data))
             .catch(err => console.log(err))
     }
@@ -43,7 +43,7 @@ const ManageCars = ({ setProcessStatus, handleSnackBar }) => {
     }
     // delete car from database
     const deleteCarInfo = (id) => {
-        axios.delete(`https://cars-zone.herokuapp.com/cars/${id}`)
+        axios.delete(`https://cars-zone-server.netlify.app/.netlify/functions/server/cars/${id}`)
             .then(({ data }) => {
                 if (data.deletedCount) {
                     loadData();

@@ -25,7 +25,7 @@ const AllMessages = () => {
     // load data from server
     useEffect(loadData, [])
     function loadData() {
-        axios.get(`https://cars-zone.herokuapp.com/contact`)
+        axios.get(`https://cars-zone-server.netlify.app/.netlify/functions/server/contact`)
             .then(({ data }) => setMessages(data))
             .catch(err => console.log(err))
     }

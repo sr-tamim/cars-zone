@@ -37,7 +37,7 @@ const DashboardOrders = ({ setProcessStatus, handleSnackBar }) => {
 
     // load data from server
     function loadData() {
-        axios.get(`https://cars-zone.herokuapp.com/orders/${user.email}`)
+        axios.get(`https://cars-zone-server.netlify.app/.netlify/functions/server/orders/${user.email}`)
             .then(({ data }) => setOrders(data))
             .catch(err => console.log(err))
     }
@@ -51,7 +51,7 @@ const DashboardOrders = ({ setProcessStatus, handleSnackBar }) => {
 
     // delete order function
     const deleteOrder = (id) => {
-        axios.delete(`https://cars-zone.herokuapp.com/order/${id}`)
+        axios.delete(`https://cars-zone-server.netlify.app/.netlify/functions/server/order/${id}`)
             .then(({ data }) => {
                 if (data.deletedCount) {
                     loadData();
@@ -75,7 +75,7 @@ const DashboardOrders = ({ setProcessStatus, handleSnackBar }) => {
     // change order status
     const handleStatusChange = (event, id) => {
         const status = event.target.value;
-        axios.put('https://cars-zone.herokuapp.com/order', { id, status })
+        axios.put('https://cars-zone-server.netlify.app/.netlify/functions/server/order', { id, status })
             .then(({ data }) => {
                 if (data.modifiedCount) {
                     loadData(); setProcessStatus({
