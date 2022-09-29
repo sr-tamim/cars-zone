@@ -52,7 +52,7 @@ const useFirebase = () => {
         const { currentUser } = auth
         const payload = { role }
         payload[email ? 'email' : 'uid'] = email || currentUser.uid
-        return axios.post('http://localhost:5000/.netlify/functions/server/user/role', payload)
+        return axios.post('https://cars-zone-server.netlify.app/.netlify/functions/server/user/role', payload)
             .then(({ data }) => {
                 data.success && currentUser.getIdToken(true)
                 return data

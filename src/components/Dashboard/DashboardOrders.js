@@ -37,7 +37,7 @@ const DashboardOrders = ({ setProcessStatus, showSnackbar }) => {
 
     // load data from server
     function loadData() {
-        axios.get(`http://localhost:5000/.netlify/functions/server/orders/${user.email}`)
+        axios.get(`https://cars-zone-server.netlify.app/.netlify/functions/server/orders/${user.email}`)
             .then(({ data }) => setOrders(data.error ? [] : data))
             .catch(err => console.dir(err))
     }
