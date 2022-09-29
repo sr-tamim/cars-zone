@@ -28,28 +28,24 @@ const useFirebase = () => {
 
     onAuthStateChanged(auth, usr => {
         usr && setAuthError(null); // clear error
-        usr && (user || setUser({ ...usr.providerData[0] })); // save user to database
+        usr && (user || getIdTokenResult(usr)
+            .then(idToken => setUser({
+                ...usr.providerData[0], role: idToken.claims.role || 'public'
+            }))
+        ); // save user to database
         usr || (user && setUser(null)); // set user to null if not found
         usr || (loadingUserOnReload && setLoadingUserOnRelaod(false)) // set loading false
     })
     useEffect(() => {
-        if (!user) return
-        if (user.role) {
-            authLoading && setAuthLoading(false)
-            loadingUserOnReload && setLoadingUserOnRelaod(false) // set loading false
-            return
-        }
-        getIdTokenResult(auth.currentUser)
-            .then(idToken => {
-                idToken.claims.role ? setUser({ ...user, role: idToken.claims.role })
-                    : updateUserRole('public')
-            })
+        authLoading && setAuthLoading(false)
+        user && loadingUserOnReload && setLoadingUserOnRelaod(false)
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [user])
 
     // update user role
     async function updateUserRole(role, email) {
         const { currentUser } = auth
+        if (!currentUser) return
         const payload = { role }
         payload[email ? 'email' : 'uid'] = email || currentUser.uid
         return axios.post('https://cars-zone-server.netlify.app/.netlify/functions/server/user/role', payload)
@@ -77,6 +73,8 @@ const useFirebase = () => {
     const signUp = (name, email, password) => {
         authStart()
         register(auth, name, email, password)
+            .then(() => updateUserRole('public'))
+            .then(() => auth.currentUser.getIdToken(true))
             .catch(err => modifyError(err))
     }
     const loginEmail = (email, password) => {
