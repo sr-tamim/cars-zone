@@ -134,8 +134,12 @@ const Dashboard = () => {
                             sx={{ mr: 2, ...(open && { display: 'none' }) }}
                         ><Icon className="fas fa-chevron-right"></Icon>
                         </IconButton>
-                        <Typography variant="h6" noWrap component="div">
+                        <Typography variant="h6" component="div">
                             Dashboard
+                            {user?.email === 'demo@admin.srt' && <Typography variant="small" color="gray"
+                             sx={{ fontSize: '0.7rem' }} component="div">
+                                All buttons will be disabled because you're just a demo admin
+                            </Typography>}
                         </Typography>
                     </Toolbar>
                 </AppBar>

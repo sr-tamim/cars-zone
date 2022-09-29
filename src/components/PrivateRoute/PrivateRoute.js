@@ -4,9 +4,9 @@ import useAuthContext from '../../others/useAuthContext';
 import LoadingSpinner from '../Common/LoadingSpinner/LoadingSpinner';
 
 const PrivateRoute = ({ children, ...rest }) => {
-    const { user, loadingUserOnReload } = useAuthContext();
+    const { user, loadingUserOnReload, authLoading } = useAuthContext();
     return (
-        loadingUserOnReload ? <LoadingSpinner style={{ py: 8 }} /> :
+        loadingUserOnReload || authLoading ? <LoadingSpinner style={{ py: 8 }} /> :
             <Route {...rest} render={({ location }) => user ? children :
                 <Redirect to={{ pathname: '/auth', state: { from: location } }} />
             } />

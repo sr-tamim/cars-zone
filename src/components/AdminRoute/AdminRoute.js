@@ -5,9 +5,9 @@ import LoadingSpinner from '../Common/LoadingSpinner/LoadingSpinner';
 
 // protect pages only available for admins
 const AdminRoute = ({ children, ...rest }) => {
-    const { user, loadingUserOnReload } = useAuthContext();
+    const { user, loadingUserOnReload, authLoading } = useAuthContext();
     return (
-        loadingUserOnReload ? <LoadingSpinner /> :
+        loadingUserOnReload || authLoading ? <LoadingSpinner /> :
             <Route {...rest} render={({ location }) => user.role === 'admin' ? children :
                 <Redirect to={{ pathname: '/unauthorized', state: { from: location } }} />
             } />
