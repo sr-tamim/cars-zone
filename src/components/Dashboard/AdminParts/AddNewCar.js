@@ -11,7 +11,7 @@ const Icon = styled('i')(({ theme }) => ({
 }));
 
 
-const AddNewCar = ({ setProcessStatus, handleSnackBar }) => {
+const AddNewCar = ({ setProcessStatus, showSnackbar }) => {
     const { user } = useAuthContext(); // get user info from user context
 
     const [values, setValues] = React.useState({}) // form values state
@@ -30,13 +30,13 @@ const AddNewCar = ({ setProcessStatus, handleSnackBar }) => {
                     setProcessStatus({
                         success: 'New Car Added Successfully'
                     })
-                    handleSnackBar()
+                    showSnackbar()
                     event.target.reset()
                 }
             })
             .catch(err => {
                 setProcessStatus({ error: err.message })
-                handleSnackBar() // show notification popup containing status
+                showSnackbar() // show notification popup containing status
             })
         event.preventDefault()
     }

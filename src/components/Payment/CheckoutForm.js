@@ -84,18 +84,18 @@ const CheckoutForm = ({ carDetails, snackBar }) => {
                     email: user.email, status: 'pending',
                     paymentDetails: confirmPayment?.paymentIntent
                 }
-                const { setProcessStatus, handleSnackBar } = snackBar;
+                const { setProcessStatus, showSnackbar } = snackBar;
                 axios.post('https://cars-zone-server.netlify.app/.netlify/functions/server/order/save', orderInfo)
                     .then(({ data }) => {
                         if (data.insertedId) {
                             setProcessStatus({ success: 'Order Placed Successfully' });
-                            handleSnackBar() // show notification popup containing status
+                            showSnackbar() // show notification popup containing status
                             history.push('/dashboard/review/add')
                         }
                     })
                     .catch(err => {
                         setProcessStatus({ error: err?.message })
-                        handleSnackBar() // show notification popup containing status
+                        showSnackbar() // show notification popup containing status
                     })
             }
             else { setPaymentStatus(confirmPayment.paymentIntent.status) }

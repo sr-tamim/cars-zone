@@ -1,7 +1,7 @@
 import axios from "axios";
 import { initializeApp } from "firebase/app";
-import { getAuth, onAuthStateChanged, signOut } from "firebase/auth";
-import { useState } from "react";
+import { getAuth, getIdTokenResult, onAuthStateChanged, signOut } from "firebase/auth";
+import { useState, useEffect } from "react";
 import firebaseConfig from "../Firebase/firebase.config";
 import register from "../Firebase/register";
 import signInEmail from "../Firebase/sign-in-email";
@@ -28,31 +28,36 @@ const useFirebase = () => {
 
     onAuthStateChanged(auth, usr => {
         usr && setAuthError(null); // clear error
-        usr && (user || getUserFromDB(usr.email)); // save user to database
+        usr && (user || setUser({ ...usr.providerData[0] })); // save user to database
         usr || (user && setUser(null)); // set user to null if not found
         usr || (loadingUserOnReload && setLoadingUserOnRelaod(false)) // set loading false
     })
-
-    // save user info in database
-    function saveUserToDB(userInfo) {
-        const { email, displayName, photoURL } = userInfo;
-        axios.post('https://cars-zone-server.netlify.app/.netlify/functions/server/users', {
-            email, displayName, photoURL
-        })
-            .then(({ data }) => data.upsertedCount && console.log('user added to database'))
-            .catch(err => console.log(err))
-            .finally(() => getUserFromDB(email))
-    }
-    // get user info from database
-    function getUserFromDB(email) {
-        axios.get(`https://cars-zone-server.netlify.app/.netlify/functions/server/users/${email}`)
-            .then(({ data }) => {
-                setUser(data);
-                loadingUserOnReload && setLoadingUserOnRelaod(false);
+    useEffect(() => {
+        if (!user) return
+        if (user.role) {
+            authLoading && setAuthLoading(false)
+            loadingUserOnReload && setLoadingUserOnRelaod(false) // set loading false
+            return
+        }
+        getIdTokenResult(auth.currentUser)
+            .then(idToken => {
+                idToken.claims.role ? setUser({ ...user, role: idToken.claims.role })
+                    : updateUserRole('public')
             })
-            .catch(err => console.log(err))
-    }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [user])
 
+    // update user role
+    async function updateUserRole(role, email) {
+        const { currentUser } = auth
+        const payload = { role }
+        payload[email ? 'email' : 'uid'] = email || currentUser.uid
+        return axios.post('http://localhost:5000/.netlify/functions/server/user/role', payload)
+            .then(({ data }) => {
+                data.success && currentUser.getIdToken(true)
+                return data
+            })
+    }
 
     // starting authentication process
     function authStart() {
@@ -66,25 +71,22 @@ const useFirebase = () => {
     }
     const googleLogin = () => {
         authStart()
-        signInGoogle(auth).then(() => saveUserToDB(auth.currentUser))
+        signInGoogle(auth)
             .catch(err => modifyError(err))
-            .finally(() => setAuthLoading(false))
     }
     const signUp = (name, email, password) => {
         authStart()
-        register(auth, name, email, password, saveUserToDB)
+        register(auth, name, email, password)
             .catch(err => modifyError(err))
-            .finally(() => setAuthLoading(false));
     }
     const loginEmail = (email, password) => {
         authStart();
         signInEmail(auth, email, password).catch(err => modifyError(err))
-            .finally(() => setAuthLoading(false))
     }
 
     return {
         user, setUser, loadingUserOnReload, authLoading, setAuthLoading,
-        authError, setAuthError, getUserFromDB,
+        authError, setAuthError, updateUserRole,
         logOut, googleLogin, signUp, loginEmail
     }
 };
