@@ -111,8 +111,8 @@ const Dashboard = () => {
     const [snackBar, setSnackBar] = React.useState(false);
 
     // handle notification snack bar opening and closing
-    const handleSnackBar = () => setSnackBar(true)
-    const handleSnackBarClose = (event, reason) => {
+    const showSnackbar = () => setSnackBar(true)
+    const closeSnackbar = (event, reason) => {
         if (reason === 'clickaway') { return }
         setSnackBar(false);
     };
@@ -211,22 +211,22 @@ const Dashboard = () => {
 
                             {/* different routes */}
                             <Route path={`${path}/pay/:carID`}>
-                                <DashboardPay setProcessStatus={setProcessStatus} handleSnackBar={handleSnackBar} />
+                                <DashboardPay setProcessStatus={setProcessStatus} showSnackbar={showSnackbar} />
                             </Route>
                             <Route path={`${path}/orders`}>
-                                <DashboardOrders setProcessStatus={setProcessStatus} handleSnackBar={handleSnackBar} />
+                                <DashboardOrders setProcessStatus={setProcessStatus} showSnackbar={showSnackbar} />
                             </Route>
                             <Route path={`${path}/review/add`}><DashboardReview /></Route>
 
                             {/* admin routes */}
                             <AdminRoute path={`${path}/make_admin`}>
-                                <MakeAdmin setProcessStatus={setProcessStatus} handleSnackBar={handleSnackBar} />
+                                <MakeAdmin setProcessStatus={setProcessStatus} showSnackbar={showSnackbar} />
                             </AdminRoute>
                             <AdminRoute path={`${path}/add_car`}>
-                                <AddNewCar setProcessStatus={setProcessStatus} handleSnackBar={handleSnackBar} />
+                                <AddNewCar setProcessStatus={setProcessStatus} showSnackbar={showSnackbar} />
                             </AdminRoute>
                             <AdminRoute path={`${path}/manage_cars`}>
-                                <ManageCars setProcessStatus={setProcessStatus} handleSnackBar={handleSnackBar} />
+                                <ManageCars setProcessStatus={setProcessStatus} showSnackbar={showSnackbar} />
                             </AdminRoute>
                             <AdminRoute path={`${path}/all_messages`}>
                                 <AllMessages />
@@ -238,8 +238,8 @@ const Dashboard = () => {
 
             {/* notification snackbar for successful status */}
             {processStatus?.success &&
-                <Snackbar open={snackBar} autoHideDuration={4000} onClose={handleSnackBarClose}>
-                    <Alert onClose={handleSnackBarClose} severity="success" sx={{ width: '100%' }}>
+                <Snackbar open={snackBar} autoHideDuration={5000} onClose={closeSnackbar}>
+                    <Alert onClose={closeSnackbar} severity="success" sx={{ width: '100%' }}>
                         {processStatus?.success}
                     </Alert>
                 </Snackbar>
@@ -247,8 +247,8 @@ const Dashboard = () => {
 
             {/* notification snack bar for error status */}
             {processStatus?.error &&
-                <Snackbar open={snackBar} autoHideDuration={5000} onClose={handleSnackBarClose}>
-                    <Alert onClose={handleSnackBarClose} severity="error" sx={{ width: '100%' }}>
+                <Snackbar open={snackBar} autoHideDuration={5000} onClose={closeSnackbar}>
+                    <Alert onClose={closeSnackbar} severity="error" sx={{ width: '100%' }}>
                         {processStatus?.error}
                     </Alert>
                 </Snackbar>

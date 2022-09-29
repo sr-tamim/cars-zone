@@ -22,7 +22,7 @@ const columns = [
 ];
 
 
-const ManageCars = ({ setProcessStatus, handleSnackBar }) => {
+const ManageCars = ({ setProcessStatus, showSnackbar }) => {
     const { user } = useAuthContext(); // get user info from user context
     const [modalOpen, setModalOpen] = useState(false); // delete modal state
     const [cars, setCars] = useState(null); // all cars info
@@ -48,12 +48,12 @@ const ManageCars = ({ setProcessStatus, handleSnackBar }) => {
                 if (data.deletedCount) {
                     loadData();
                     setProcessStatus({ success: 'Deleted Successfully' });
-                    handleSnackBar()
+                    showSnackbar()
                 }
             })
             .catch(err => {
                 loadData(); setProcessStatus({ error: err.message })
-                handleSnackBar() // show notification popup containing status
+                showSnackbar() // show notification popup containing status
             })
     }
 

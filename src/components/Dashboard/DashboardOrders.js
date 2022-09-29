@@ -28,7 +28,7 @@ const columns = [
 ];
 
 // dashboard order component
-const DashboardOrders = ({ setProcessStatus, handleSnackBar }) => {
+const DashboardOrders = ({ setProcessStatus, showSnackbar }) => {
     // firstly got process status and notification snackbar from parent component
 
     const { user } = useAuthContext(); // get user info from user context
@@ -38,8 +38,8 @@ const DashboardOrders = ({ setProcessStatus, handleSnackBar }) => {
     // load data from server
     function loadData() {
         axios.get(`https://cars-zone-server.netlify.app/.netlify/functions/server/orders/${user.email}`)
-            .then(({ data }) => setOrders(data))
-            .catch(err => console.log(err))
+            .then(({ data }) => setOrders(data.error ? [] : data))
+            .catch(err => console.dir(err))
     }
     useEffect(loadData, [user.email]) // load data when page loaded
 
@@ -56,12 +56,12 @@ const DashboardOrders = ({ setProcessStatus, handleSnackBar }) => {
                 if (data.deletedCount) {
                     loadData();
                     setProcessStatus({ success: 'Deleted Successfully' });
-                    handleSnackBar() // show notification popup containing status
+                    showSnackbar() // show notification popup containing status
                 }
             })
             .catch(err => {
                 loadData(); setProcessStatus({ error: err.message })
-                handleSnackBar() // show notification popup containing status
+                showSnackbar() // show notification popup containing status
             })
     }
 
@@ -81,12 +81,12 @@ const DashboardOrders = ({ setProcessStatus, handleSnackBar }) => {
                     loadData(); setProcessStatus({
                         success: 'Status Changed Successfully'
                     });
-                    handleSnackBar() // show notification popup containing status
+                    showSnackbar() // show notification popup containing status
                 }
             })
             .catch(err => {
                 loadData(); setProcessStatus({ error: err.message })
-                handleSnackBar() // show notification popup containing status
+                showSnackbar() // show notification popup containing status
             })
     };
 
