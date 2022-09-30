@@ -18,15 +18,15 @@ const Footer = () => {
                             display: 'flex', alignItems: 'flex-end'
                         }
                     }}>
-                        <Box component='a' href="https://facebook.com/srtamim21">
+                        <Box component='a' href="https://facebook.com/srtamim21" target="_blank">
                             <FacebookRounded color="primary" />
                         </Box>
-                        <Box component='a' href="https://twitter.com/TaMiM__tamim">
+                        <Box component='a' href="https://twitter.com/SR__Tamim" target="_blank">
                             <Twitter color="primary" />
                         </Box>
-                        <Box component="a" href="tel:+88019028060">
+                        <Box component="a" href="tel:+88012341256">
                             <PhoneRounded sx={{ mx: 1 }} />
-                            (+880) 1902-8060
+                            (+880) 1234-1256
                         </Box>
                     </Box>
                 </Box>
@@ -84,7 +84,7 @@ const Footer = () => {
                         <Typography variant="p">
                             Copyright © 2021 <br />
                             All rights reserved <br />
-                            Programmed, developed & managed by <br />
+                            Programmed, developed & designed by <br />
                             <Link href="https://sr-tamim.vercel.app" color="primary" fontWeight="bold" target="_blank">SR TAMIM</Link>
                         </Typography>
                     </Grid>

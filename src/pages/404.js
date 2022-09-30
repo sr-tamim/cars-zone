@@ -17,7 +17,7 @@ const Page404 = () => {
             <Typography variant="h4" fontSize={35} color="primary" sx={{
                 fontWeight: 'medium', my: 3
             }}>PAGE NOT FOUND</Typography>
-            <NavLink to="/home" style={{ textDecoration: 'none' }}>
+            <NavLink to="/" style={{ textDecoration: 'none' }}>
                 <Button sx={{ px: 4 }}>Go To Homepage</Button></NavLink>
         </Box>
     );

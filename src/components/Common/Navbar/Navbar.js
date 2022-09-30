@@ -18,9 +18,8 @@ const toggleHeaderVisibility = () => {
 
 function changeHeaderOnScroll() {
     window.addEventListener('scroll', () => {
-        (window.scrollY) > 100 ?
-            document.querySelector('header').style.padding = '10px 0'
-            : document.querySelector('header').style.padding = '20px 0';
+        if (window.scrollY > 150) document.querySelector('header').style.padding = '10px 0'
+        else if (window.scrollY < 100) document.querySelector('header').style.padding = '20px 0';
     })
 }
 
@@ -51,14 +50,13 @@ const Navbar = () => {
                     </NavLink>
                     <Box id="header-menu-toggler">
                         <IconButton size="large" edge="start"
-                            sx={{ color: 'black' }}
                             aria-label="open drawer"
                             onClick={toggleHeaderVisibility}>
-                            <MenuIcon />
+                            <MenuIcon color="primary" />
                         </IconButton>
                     </Box>
                     <Box noWrap id="header-links" >
-                        <NavLink to="/home"
+                        <NavLink to="/" exact
                             activeClassName="active"
                             onClick={toggleHeaderVisibility}>
                             <Typography variant="h6">Home</Typography>
@@ -77,22 +75,17 @@ const Navbar = () => {
                         </NavLink>}
 
                         {!user ?
-                            <NavLink to="/auth/login"
-                                style={{ textDecoration: 'none' }}>
-                                <Button variant="contained" sx={{ m: 1 }}
+                            <NavLink to="/auth/login">
+                                <Button variant="contained"
                                     onClick={toggleHeaderVisibility}>Login</Button>
                             </NavLink> :
                             <div>
                                 <IconButton
-                                    size="large" color="warning"
                                     aria-label="account of current user"
                                     aria-controls="menu-appbar"
                                     aria-haspopup="true"
                                     onClick={handleMenu}
-                                    sx={{
-                                        padding: 0, margin: '0 15px',
-                                        background: 'white'
-                                    }}
+                                    sx={{ padding: '5px', margin: 0 }}
                                 >
                                     {!user.photoURL ? <AccountCircle color="primary" fontSize="large" /> :
                                         <Box sx={{ width: '30px', height: '30px', background: '#ff000055', borderRadius: '50%', overflow: 'hidden' }}>

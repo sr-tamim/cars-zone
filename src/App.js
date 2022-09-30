@@ -1,4 +1,4 @@
-import { createTheme, ThemeProvider } from "@mui/material";
+import { Backdrop, createTheme, ThemeProvider } from "@mui/material";
 import { Box, styled } from "@mui/system";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import './App.css';
@@ -16,6 +16,8 @@ import Footer from "./components/Common/Footer/Footer";
 import Contact from "./pages/Contact";
 import Login from "./components/Auth/Login/Login";
 import SignUp from "./components/Auth/SignUp/SignUp";
+import useFirebase from "./hooks/useFirebase";
+import LoadingSpinner from "./components/Common/LoadingSpinner/LoadingSpinner";
 
 // customize mui theme
 export const theme = createTheme({
@@ -60,17 +62,24 @@ export const PageHeading = styled('div')(({ theme }) => ({
 }));
 
 function App() {
+  const firebaseFunctions = useFirebase()
+
   return (
     // customized theme provider
     <ThemeProvider theme={theme}>
-      <AuthContextProvider> {/* authentication context provider */}
+      <Backdrop sx={{
+        zIndex: 9999, backgroundColor: 'white'
+      }} open={firebaseFunctions.loadingUserOnReload}
+        transitionDuration={{ appear: 0, enter: 0, exit: 1000 }}>
+        <LoadingSpinner />
+      </Backdrop>
+      <AuthContextProvider firebaseFunctions={firebaseFunctions}> {/* authentication context provider */}
         <Router>
           <Box className="App" sx={{ position: 'relative' }}>
             <Navbar />   {/* navigation bar */}
             <Box sx={{ position: 'relative' }}>
               <Switch>
                 {/* routes */}
-                <Route path="/home"><Home /></Route>
                 <Route exact path="/"><Home /></Route>
                 <Route exact path="/cars"><Cars /></Route>
 
